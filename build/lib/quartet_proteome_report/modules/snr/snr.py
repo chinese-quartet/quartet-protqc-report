@@ -39,18 +39,18 @@ class MultiqcModule(BaseMultiqcModule):
     snr_pca_table = []
     for f in self.find_log_files('snr/table'):
       f_p = '%s/%s' % (f['root'], f['fn'])
-      
-      content = pd.read_csv(f_p, sep = "\t")
-      self.quartet_cats = list(set(content["group"].to_list()))
-      keys = content.columns.to_list()
-      for index,row in content.iterrows():
-        snr_pca_table.append(dict(zip(keys, row)))
-      
-      for i in snr_pca_table:
-        key = i['sample_id']
-        pop_i = i.pop('sample_id')
-        self.snr_pca_data[key] = i
-      
+    
+    content = pd.read_csv(f_p, sep = "\t")
+    self.quartet_cats = list(set(content["group"].to_list()))
+    keys = content.columns.to_list()
+    for index,row in content.iterrows():
+      snr_pca_table.append(dict(zip(keys, row)))
+    
+    for i in snr_pca_table:
+      key = i['sample_id']
+      pop_i = i.pop('sample_id')
+      self.snr_pca_data[key] = i
+    
     # Now add a PCA plot
     if len(self.snr_pca_data) != 0:
       self.pca_plot()
@@ -82,11 +82,7 @@ class MultiqcModule(BaseMultiqcModule):
 
       self.add_section(
         name="",
-        description = """Points are coloured as follows: 
-        <span style="color: #4CC3D9;">D5</span>, 
-        <span style="color: #7BC8A4;">D6</span>, 
-        <span style="color: #FFC65D;">F7</span>, 
-        <span style="color: #F16745;">M8</span>.""",
+        description="",
         anchor="snr-pca",
         plot=scatter.plot(data, pconfig)
       )

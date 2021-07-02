@@ -41,16 +41,24 @@ def quartet_proteome_report_execution_start():
   # Module-data_generation_information
   if 'data_generation_information/information' not in config.sp:
     config.update_dict( config.sp, { 'data_generation_information/information': { 'fn_re': '^general_information.json$' } } )
+  
 
   # Module-conclusion
   if 'conclusion/table' not in config.sp:
     config.update_dict( config.sp, { 'conclusion/table': { 'fn_re': '^conclusion_table.tsv$' } } )
   
   # Module-snr
+  if 'snr/png' not in config.sp:
+    config.update_dict( config.sp, { 'snr/png': { 'fn_re': '^pca_plot.png$' } } )
+
   if 'snr/table' not in config.sp:
     config.update_dict( config.sp, { 'snr/table': { 'fn_re': '^pca_table.tsv$' } } )
+  
 
   # Module-correlation
+  if 'correlation/png' not in config.sp:
+    config.update_dict( config.sp, { 'correlation/png': { 'fn_re': '^corr_plot.png$' } } )
+
   if 'correlation/table' not in config.sp:
     config.update_dict( config.sp, { 'correlation/table': { 'fn_re': '^corr_table.tsv$' } } )  
   

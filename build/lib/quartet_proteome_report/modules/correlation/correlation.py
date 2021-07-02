@@ -37,22 +37,22 @@ class MultiqcModule(BaseMultiqcModule):
     corr_pca_table = []
     for f in self.find_log_files('correlation/table'):
       f_p = '%s/%s' % (f['root'], f['fn'])
-
-      content = pd.read_csv(f_p, sep = "\t")
-      keys = content.columns.to_list()
-      for index,row in content.iterrows():
-        corr_pca_table.append(dict(zip(keys, row)))
-      
-      for i in corr_pca_table:
-        key = i['gene']
-        pop_i = i.pop('gene')
-        self.corr_pca_data[key] = i
+    
+    content = pd.read_csv(f_p, sep = "\t")
+    keys = content.columns.to_list()
+    for index,row in content.iterrows():
+      corr_pca_table.append(dict(zip(keys, row)))
+    
+    for i in corr_pca_table:
+      key = i['gene']
+      pop_i = i.pop('gene')
+      self.corr_pca_data[key] = i
     
     # Now add a Scatter plot
     if len(self.corr_pca_data) != 0:
       self.pca_plot()
     else:
-      log.debug('No file matched: correlation - pca_table.tsv')
+      log.debug('No file matched: correlation - pca_table.txt')
 
   def pca_plot(self):
     data = OrderedDict()
