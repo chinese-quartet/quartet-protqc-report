@@ -5,7 +5,7 @@ Authors@R:
     person(given = "Qiaochu",
            family = "Chen",
            role = c("aut", "cre"),
-           email = "21112030002@m.fudan.edu.cn")
+           email = "chenqiaochu@sjtu.edu.cn")
 Description: The package ProtQC makes it easier for visualization of QC metrics for Quartet Project.
 License: MIT + file LICENSE
 Encoding: UTF-8
