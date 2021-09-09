@@ -8,21 +8,25 @@ The package ProtQC visualizes Quality Control(QC) results for Quartet Project.
 ```
 devtools::install_github("chinese-quartet/ProtQC")
 ```
-or
-```
-install.packages("ProtQC")
-```
 
 ## Usage
 
+ProtQC::plot_pca(expr_dt_path,meta_dt_path,output_dir)
+
+ProtQC::plot_corr(expr_dt_path,meta_dt_path,output_dir)
+
+ProtQC::table_conclusion(expr_dt_path,meta_dt_path,output_dir)
+
+
+## Examples
 ```
 ProtQC::plot_pca('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 ```
-ProtQC::plot_corr('./data/test_data_log2_example.csv','./data/test_metadata_example.csv')
+ProtQC::plot_corr('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 ```
-ProtQC::table_conclusion('./data/test_data_log2_example.csv','./data/test_metadata_example.csv')
+ProtQC::table_conclusion('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 
 ## Built-in Dataset
