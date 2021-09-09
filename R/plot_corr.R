@@ -24,7 +24,7 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
   ref_snrcorr_dir <- paste(system.file(package = "ProtQC"), "/data/ref_snrcorr.rds", sep = "")
   snrcorr <- readRDS(ref_snrcorr_dir)
 
-  ref_dt_dir <- paste(system.file(package = "ProtQC"), "/data/example_ref_dt2.rds", sep = "")
+  ref_dt_dir <- paste(system.file(package = "ProtQC"), "/data/example_ref_dt.rds", sep = "")
   ref_dt <- readRDS(ref_dt_dir)
 
   group <- factor(meta_dt$sample)
@@ -101,6 +101,8 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
 
   df_test_perpair <- merge(df_perpair,df_ref_perpair,by.x = 'gene',by.y = 'gene')
 
+  cor(df_test_perpair$logFC.x,df_test_perpair$logFC.y)
+
   p <- ggplot(df_test_perpair,aes(x=logFC.x, y=logFC.y))+
     geom_point(color='steelblue4', size=2.5, alpha=.1)+
     scale_fill_brewer(palette = 'Blues')+
@@ -119,8 +121,8 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
       ylim = c(-max(df_test_perpair$logFC.y),max(df_test_perpair$logFC.y)))
 
   output_dir_final1 <- paste(output_dir,'corr_plot.png',sep = '')
-  output_dir_final2 <- paste(output_dir,'deps_table.tsv',sep = '')
-  output_dir_final3 <- paste(output_dir,'corr_table.tsv',sep = '')
+  output_dir_final2 <- paste(output_dir,'deps_table.csv',sep = '')
+  output_dir_final3 <- paste(output_dir,'corr_table.csv',sep = '')
 
   ggsave(output_dir_final1,p,height = 5.5,width = 5.5)
   write.csv(test_dt,output_dir_final2,row.names = F)
