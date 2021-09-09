@@ -24,7 +24,7 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
   ref_snrcorr_dir <- paste(system.file(package = "ProtQC"), "/data/ref_snrcorr.rds", sep = "")
   snrcorr <- readRDS(ref_snrcorr_dir)
 
-  ref_dt_dir <- paste(system.file(package = "ProtQC"), "/data/example_ref_dt.rds", sep = "")
+  ref_dt_dir <- paste(system.file(package = "ProtQC"), "/data/example_ref_dt2.rds", sep = "")
   ref_dt <- readRDS(ref_dt_dir)
 
   group <- factor(meta_dt$sample)
