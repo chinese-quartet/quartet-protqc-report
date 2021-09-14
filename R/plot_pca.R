@@ -13,8 +13,6 @@ plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
   ref_snrcorr_dir <- paste(system.file(package = "ProtQC"), "/data/ref_snrcorr.rds", sep = "")
   snrcorr <- readRDS(ref_snrcorr_dir)
 
-  expr_dt_path
-
   expr_dt <- read.csv(expr_dt_path)
   meta_dt <- read.csv(meta_dt_path)
 
@@ -53,14 +51,17 @@ plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
   setkey(dt.dist.stats,Type)
   signoise <- dt.dist.stats['Inter']$Avg.Dist/dt.dist.stats['Intra']$Avg.Dist
 
-  signoise_db <- round(10*log10(signoise),2)
+  signoise_db <- round(10*log10(signoise),3)
   signoise_db_rank_length <- length(rank(c(signoise_db,snrcorr$SNR)))
   signoise_db_rank <- c(signoise_db_rank_length-rank(c(signoise_db,snrcorr$SNR))[1]+1)
+
+  historical_mean <- round(mean(snrcorr$SNR),3)
+  historical_sd <- round(sd(snrcorr$SNR),3)
 
   output_signoise_db <- data.table(
     "Quality Metrics" = c("Signal-to-Noise Ratio (SNR)"),
     Value = c(signoise_db),
-    "Historical value(mean ± SD)" = c('21.64 ± 6.21'),
+    "Historical value(mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
     Rank = c(paste(as.character(signoise_db_rank),'/',signoise_db_rank_length,sep = ''))
   )
 
@@ -100,8 +101,8 @@ plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
   output_dir_final1 <- paste(output_dir,'pca_plot.png',sep = '')
   ggsave(output_dir_final1,p,width = 6,height = 5.5)
 
-  output_dir_final2 <- paste(output_dir,'pca_table.csv',sep = '')
-  write.csv(output,output_dir_final2,row.names = F)
+  output_dir_final2 <- paste(output_dir,'pca_table.tsv',sep = '')
+  write.table(output,output_dir_final2,sep = '\t',row.names = F)
 
   return(output_signoise_db)
 }

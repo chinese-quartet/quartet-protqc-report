@@ -81,13 +81,16 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
   cor_value <- df_cor[order(df_cor$REC)[3],2]
   cor_value <- round(cor_value,3)
 
-  cor_value_rank_length <- length(rank(c(cor_value,snrcorr$Corr)))
-  cor_value_rank <- c(cor_value_rank_length-rank(c(cor_value,snrcorr$Corr))[1]+1)
+  cor_value_rank_length <- length(rank(c(cor_value,snrcorr$COR)))
+  cor_value_rank <- c(cor_value_rank_length-rank(c(cor_value,snrcorr$COR))[1]+1)
+
+  historical_mean <- round(mean(snrcorr$COR),3)
+  historical_sd <- round(sd(snrcorr$COR),3)
 
   output_cor_value <- data.table(
     "Quality Metrics" = c("Correlation with Reference Datasets"),
     Value = c(cor_value),
-    "Historical value(mean ± SD)" = c('0.698 ± 0.302'),
+    "Historical value(mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
     Rank = c(paste(as.character(cor_value_rank),'/',cor_value_rank_length,sep = ''))
   )
 
@@ -112,8 +115,8 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
           legend.text = element_text(family="Arial",size=16,color = "black"),
           plot.subtitle = element_text(family="Arial",face='plain',color = "black",hjust=0.5,size=16),
           plot.title = element_text(family="Arial",face='plain',color = "black",hjust=0.5,size=16))+
-    labs(x='Reference Datasets',
-         y='Test Dataset',
+    labs(x='Test Dataset',
+         y='Reference Datasets',
          title=paste("Correlation = ",cor_value,sep=""),
          subtitle = paste("(N = ",nrow(df_test_perpair),')',sep=""))+
     coord_fixed(
@@ -121,12 +124,12 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
       ylim = c(-max(df_test_perpair$logFC.y),max(df_test_perpair$logFC.y)))
 
   output_dir_final1 <- paste(output_dir,'corr_plot.png',sep = '')
-  output_dir_final2 <- paste(output_dir,'deps_table.csv',sep = '')
-  output_dir_final3 <- paste(output_dir,'corr_table.csv',sep = '')
+  output_dir_final2 <- paste(output_dir,'deps_table.tsv',sep = '')
+  output_dir_final3 <- paste(output_dir,'corr_table.tsv',sep = '')
 
   ggsave(output_dir_final1,p,height = 5.5,width = 5.5)
-  write.csv(test_dt,output_dir_final2,row.names = F)
-  write.csv(df_test_perpair,output_dir_final3,row.names = F)
+  write.table(test_dt,output_dir_final2,sep = '\t',row.names = F)
+  write.table(df_test_perpair,output_dir_final3,sep = '\t',row.names = F)
 
   return(output_cor_value)
 }
