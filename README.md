@@ -20,7 +20,7 @@ ProtQC::table_conclusion(expr_dt_path,meta_dt_path,output_dir)
 
 ## Examples
 ```
-ProtQC::plot_pca('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
+ProtQC::plot_pca('./data/test_data_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 ```
 ProtQC::plot_corr('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
