@@ -19,6 +19,7 @@ init:
   # Unpack environment file to the directory, repository/envs/quartet-protqc-report
   - step: unpack-env
     envname: quartet-protqc-report
+    postunpack: chmod a+x {{ENV_DEST_DIR}}/quartet-protqc-report/bin/protqc.sh
   - step: load-namespace
     namespace: tservice.plugins.quartet-protqc-report
   - step: register-plugin

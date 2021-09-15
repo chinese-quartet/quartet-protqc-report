@@ -29,7 +29,7 @@ EOF
 
 while getopts ":hd:m:o:" arg; do
 	case "$arg" in
-	"e")
+	"d")
 		DATA_FILE="$OPTARG"
 		;;
 	"m")

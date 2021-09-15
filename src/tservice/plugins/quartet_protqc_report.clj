@@ -4,7 +4,7 @@
             [spec-tools.core :as st]
             [clojure.tools.logging :as log]
             [tservice.lib.files :as ff]
-            [tservice.api.storage.fs :as fs-api]
+            [clojure.string :as clj-str]
             [tservice.lib.fs :as fs-lib]
             [tservice.vendor.multiqc :as mq]
             [tservice.plugins.quartet-protqc-report.protqc :as protqc]
@@ -60,7 +60,7 @@
                (let [payload (merge {:description description} payload)
                      data-file (protqc/correct-filepath data_file)
                      metadata-file (protqc/correct-filepath metadata_file)
-                     workdir (fs-api/dirname data-file)
+                     workdir (protqc/dirname data-file)
                      log-path (fs-lib/join-paths workdir "log")
                      response {:report (format "%s/multireport.html" workdir)
                                :log log-path
@@ -74,7 +74,7 @@
                                             :response       response})
                      result-dir (fs-lib/join-paths workdir "results")]
                  (fs-lib/create-directories! result-dir)
-                 (log/info (format "Create a report %s with %s" name payload))
+                 (log/info (format "Create a report %s with %s in %s" name payload workdir))
                  (spit log-path (json/write-str {:status "Running"
                                                  :msg ""}))
                  (update-process! task-id 0)
