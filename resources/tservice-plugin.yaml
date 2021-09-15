@@ -1,0 +1,27 @@
+info:
+  name: QC Report for Quartet Proteomics
+  version: v0.1.1
+  description: Generate the QC Report for Quartet Proteomics data.
+  category: Report
+  home: https://github.com/tservice-plugins/quartet-protqc-report
+  source: PGx
+  short_name: quartet-protqc-report
+  icons:
+    - src: ""
+      type: image/png
+      sizes: 192x192
+  author: PGx
+plugin:
+  name: quartet-protqc-report
+  display-name: QC Report for Quartet Proteomics
+  lazy-load: false
+init:
+  # Unpack environment file to the directory, repository/envs/quartet-protqc-report
+  - step: unpack-env
+    envname: quartet-protqc-report
+  - step: load-namespace
+    namespace: tservice.plugins.quartet-protqc-report
+  - step: register-plugin
+    entrypoint: tservice.plugins.quartet-protqc-report/metadata
+  - step: init-event
+    entrypoint: tservice.plugins.quartet-protqc-report/events-init

@@ -1,0 +1,1 @@
+git+git://github.com/chinese-quartet/quartet-proteome-report#egg=quartet-proteome-report
