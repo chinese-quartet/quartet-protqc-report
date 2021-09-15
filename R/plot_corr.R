@@ -21,10 +21,10 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
   expr_dt <- read.csv(expr_dt_path)
   meta_dt <- read.csv(meta_dt_path)
 
-  ref_snrcorr_dir <- paste(system.file(package = "ProtQC"), "/data/ref_snrcorr.rds", sep = "")
+  ref_snrcorr_dir <- file.path(system.file(package = "ProtQC"), "data/ref_snrcorr.rds")
   snrcorr <- readRDS(ref_snrcorr_dir)
 
-  ref_dt_dir <- paste(system.file(package = "ProtQC"), "/data/example_ref_dt.rds", sep = "")
+  ref_dt_dir <- file.path(system.file(package = "ProtQC"), "data/example_ref_dt.rds")
   ref_dt <- readRDS(ref_dt_dir)
 
   group <- factor(meta_dt$sample)
@@ -123,9 +123,9 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
       xlim = c(-max(df_test_perpair$logFC.y),max(df_test_perpair$logFC.y)),
       ylim = c(-max(df_test_perpair$logFC.y),max(df_test_perpair$logFC.y)))
 
-  output_dir_final1 <- paste(output_dir,'corr_plot.png',sep = '')
-  output_dir_final2 <- paste(output_dir,'deps_table.tsv',sep = '')
-  output_dir_final3 <- paste(output_dir,'corr_table.tsv',sep = '')
+  output_dir_final1 <- file.path(output_dir,'corr_plot.png')
+  output_dir_final2 <- file.path(output_dir,'deps_table.tsv')
+  output_dir_final3 <- file.path(output_dir,'corr_table.tsv')
 
   ggsave(output_dir_final1,p,height = 5.5,width = 5.5)
   write.table(test_dt,output_dir_final2,sep = '\t',row.names = F)

@@ -10,7 +10,7 @@
 
 plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
 
-  ref_snrcorr_dir <- paste(system.file(package = "ProtQC"), "/data/ref_snrcorr.rds", sep = "")
+  ref_snrcorr_dir <- file.path(system.file(package = "ProtQC"), "data/ref_snrcorr.rds")
   snrcorr <- readRDS(ref_snrcorr_dir)
 
   expr_dt <- read.csv(expr_dt_path)
@@ -98,10 +98,10 @@ plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
     pcs[,1:(ncol(pcs)-2)]
   )
 
-  output_dir_final1 <- paste(output_dir,'pca_plot.png',sep = '')
+  output_dir_final1 <- file.path(output_dir,'pca_plot.png')
   ggsave(output_dir_final1,p,width = 6,height = 5.5)
 
-  output_dir_final2 <- paste(output_dir,'pca_table.tsv',sep = '')
+  output_dir_final2 <- file.path(output_dir,'pca_table.tsv')
   write.table(output,output_dir_final2,sep = '\t',row.names = F)
 
   return(output_signoise_db)
