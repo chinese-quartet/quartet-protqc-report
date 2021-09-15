@@ -3,14 +3,15 @@
 ## Description
 The package ProtQC visualizes Quality Control(QC) results for Quartet Project.
 
-## Installation
+## Required Packages
+dplyr,data.table,ggplot2,ggthemes,edgeR,limma
 
+## Installation
 ```
 devtools::install_github("chinese-quartet/ProtQC")
 ```
 
 ## Usage
-
 ProtQC::plot_pca(expr_dt_path,meta_dt_path,output_dir)
 
 ProtQC::plot_corr(expr_dt_path,meta_dt_path,output_dir)
@@ -23,14 +24,13 @@ ProtQC::table_conclusion(expr_dt_path,meta_dt_path,output_dir)
 ProtQC::plot_pca('./data/test_data_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 ```
-ProtQC::plot_corr('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
+ProtQC::plot_corr('./data/test_data_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 ```
-ProtQC::table_conclusion('./data/test_data_log2_example.csv','./data/test_metadata_example.csv','~/Desktop/')
+ProtQC::table_conclusion('./data/test_data_example.csv','./data/test_metadata_example.csv','~/Desktop/')
 ```
 
 ## Built-in Dataset
-
 1. example_ref_dt.rds
 
 > This file is an example for reference data set, which is a benchmarked proteomics profiled data set for Quality Control.
@@ -40,10 +40,9 @@ ProtQC::table_conclusion('./data/test_data_log2_example.csv','./data/test_metada
 > This file is used in ranking scores of the testing data set in the historical values.
 
 ## Examples for the input data
+1. data/input/test_data_example.csv
 
-1. data/input/test_data_log2_example.csv
-
-This file is an example for proteomics profiled data (***expr_dt***, one of the input parameters for these functions: ***plot_pca()***, ***plot_corr()***,***table_conclusion()***), containing gene symbols of each protein and its quantitated expression level in each sample (replicate), and the missing values are replaced by *NA*. **Remember that each value is a base-2 logarithm of its original value.**
+This file is an example for proteomics profiled data (***expr_dt***, one of the input parameters for these functions: ***plot_pca()***, ***plot_corr()***,***table_conclusion()***), containing gene symbols of each protein and its quantitated expression level in each sample (replicate), and the missing values are replaced by *NA*. 
 
 2. data/input/test_metadata_example.csv
 
