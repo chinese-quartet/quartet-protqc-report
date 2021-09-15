@@ -4,7 +4,7 @@
             [spec-tools.core :as st]
             [clojure.tools.logging :as log]
             [tservice.lib.files :as ff]
-            [clojure.string :as clj-str]
+            [tservice.api.config :refer [add-env-to-path]]
             [tservice.lib.fs :as fs-lib]
             [tservice.vendor.multiqc :as mq]
             [tservice.plugins.quartet-protqc-report.protqc :as protqc]
@@ -62,7 +62,7 @@
                      metadata-file (protqc/correct-filepath metadata_file)
                      workdir (protqc/dirname data-file)
                      log-path (fs-lib/join-paths workdir "log")
-                     response {:report (format "%s/multireport.html" workdir)
+                     response {:report (format "%s/multiqc_report.html" workdir)
                                :log log-path
                                :response-type :data2report}
                      task-id (create-task! {:name           name
@@ -123,7 +123,10 @@
                                      {:status "Success" :msg ""})
                                    (fn []
                                      (update-process! task-id 80)
-                                     (mq/multiqc result-dir dest-dir {:template "default" :title "Quartet Report for Proteomics"}))]
+                                     (mq/multiqc result-dir dest-dir
+                                                 {:template "quartet_proteome_report"
+                                                  :title "Quartet Report for Proteomics"
+                                                  :env {:PATH (add-env-to-path "quartet-protqc-report")}}))]
                                   (fn [result] (= (:status result) "Success")))
         status (:status (last results))
         msg (apply str (map :msg results))
