@@ -54,7 +54,7 @@
    {:name "quartet-protqc-report"
     :summary "Visualizes Quality Control(QC) results from proteomics data for Quartet Project."
     :params-schema quartet-protqc-report-params-body
-    :handler (fn [{:keys [name data_file metadata_file description]
+    :handler (fn [{:keys [name data_file metadata_file description owner]
                    :or {description (format "Quality control report for %s" name)}
                    :as payload}]
                (let [payload (merge {:description description} payload)
@@ -68,9 +68,10 @@
                      task-id (create-task! {:name           name
                                             :description    description
                                             :payload        payload
+                                            :owner          owner
                                             :plugin-name    "quartet-protqc-report"
                                             :plugin-type    "ReportPlugin"
-                                            :plugin-version "v0.1.0"
+                                            :plugin-version "v0.1.1"
                                             :response       response})
                      result-dir (fs-lib/join-paths workdir "results")]
                  (fs-lib/create-directories! result-dir)
@@ -87,7 +88,7 @@
                                              :description description
                                              :plugin-name "quartet-protqc-report"
                                              :plutin-type "ReportPlugin"
-                                             :plugin-version "v0.1.0"}})
+                                             :plugin-version "v0.1.1"}})
                  response))
     :plugin-type :ReportPlugin
     :response-type :data2report}))
