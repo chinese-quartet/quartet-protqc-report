@@ -6,12 +6,9 @@ from __future__ import print_function
 from collections import OrderedDict
 import logging
 import pandas as pd
-import plotly.express as px
-import plotly.offline as py
-import plotly.figure_factory as ff
 
 from multiqc import config
-from multiqc.plots import table
+from multiqc.plots import table, heatmap
 from multiqc.modules.base_module import BaseMultiqcModule
 from quartet_proteome_report.modules.plotly import plot as plotly_plot
 
@@ -28,30 +25,8 @@ class MultiqcModule(BaseMultiqcModule):
     
     # Initialise the parent module Class object
     super(MultiqcModule, self).__init__(
-      name='Performance Conclusion',
-      target='Performance Conclusion',
-      #anchor='conclusion',
-      #href='https://github.com/clinico-omics/quartet-proteome-report',
-      info=' is an report module to show the overall data quality.'
+      name='Assessment Summary'
     )
-      
-    ### Performance Score
-    quality_score_df = pd.DataFrame()
-    for f in self.find_log_files('conclusion/rank_table'):
-      f_p = '%s/%s' % (f['root'], f['fn'])
-      quality_score_df = pd.read_csv(f_p, sep = "\t")
-      # Sort the dataframe by total score
-      #quality_score_df.sort_values('Total', inplace=True, ascending=False)
-      query_batch_name = 'Lot2_test'
-      indicator = 'Total'
-
-      #test_score = quality_score_df[quality_score_df.batch == 'Lot2_test'].Total.to_list()[0]
-      #quality_score_list = quality_score_df['Total'].values.tolist()
-      
-      if quality_score_df.shape[0] != 0:
-        self.plot_quality_score('plot_quality_score', quality_score_df, query_batch_name, indicator)
-      else:
-        log.debug('No file matched: conclusion - rank_table.tsv')
 
     ### Conclusion Table
     table_summary = []
@@ -74,77 +49,21 @@ class MultiqcModule(BaseMultiqcModule):
         log.debug('No file matched: conclusion - conclusion_table.tsv')
 
 
-  ### Plot: quality score
-  def plot_quality_score(self, id, quality_score_df, query_batch_name, indicator, title=None, section_name=None, description=None, helptext=None):
-    quality_score_df.sort_values(indicator, inplace=True, ascending=True)
-    performance_score = list(quality_score_df[indicator])
-    batch = list(quality_score_df['batch'])
-    query_score = list(quality_score_df.loc[quality_score_df['batch'] == query_batch_name][indicator])[0]
-    
-    fig = px.imshow([performance_score] , x=[performance_score][0], y=['Score'], template="simple_white")
-
-    fig.update_traces(dict(showscale=False,
-                      coloraxis=None,
-                      colorscale='RdYlGn'),
-                      selector={'type': 'heatmap'})
-
-    fig.update_layout(showlegend=False, 
-                      annotations=[
-                        dict(x=query_score,
-                             y=-3,
-                             xref="x",
-                             yref="y",
-                             text=str(query_score)[0:5],
-                             textangle=0,
-                             showarrow=True,
-                             font=dict(family="Arial, sans-serif", size=45, color="black"),
-                             align="center",
-                             arrowhead=1,
-                             arrowsize=4,
-                             arrowwidth=3,
-                             arrowside="end",
-                             arrowcolor="grey",
-                             ax=0,
-                             ay=-60,
-                             yshift=-145)])
-
-    fig.update_xaxes(ticks="outside",
-                        tickwidth=2,
-                        tickcolor='black',
-                        ticklen=10,
-                        showline=True,
-                        linewidth=2,
-                        linecolor='black',
-                        tickfont=dict(family='Arial, sans-serif', color='black', size=20))
-
-    fig.update_yaxes(linecolor = 'white', zeroline = False, showline=False, showticklabels=False, showgrid=False, ticks='')
-    fig.update_layout(height=500,margin=dict(t=0,b=70))
-
-    html = plotly_plot(fig, {
-              'id': id + '_plot',
-              'data_id': id + '_data',
-              'title': '',
-              'auto_margin': True})
-    
-
-    # Add a report section with the scatter plot
-    self.add_section(
-      name='Overall Performance',
-      anchor=id + '_anchor',
-      description=description if description else
-      'Performance metrics and thresholds using Quartet reference metabolite',
-      helptext=helptext if helptext else '''
-      This longer description explains what exactly the numbers mean
-      and supports markdown formatting. This means that we can do _this_:
-
-      * Something important
-      * Something else important
-      * Best of all - some `code`
-
-      Doesn't matter if this is copied from documentation - makes it
-      easier for people to find quickly.
-      ''',
-      plot=html)
+    ### Performance Score
+    quality_score_df = pd.DataFrame()
+    for f in self.find_log_files('conclusion/rank_table'):
+      f_p = '%s/%s' % (f['root'], f['fn'])
+      quality_score_df = pd.read_csv(f_p, sep = "\t")
+      # Sort the dataframe by total score
+      quality_score_df.sort_values('Total', inplace=True, ascending=False)
+      quality_score_df[['COR']] = quality_score_df[['COR']]*100
+      #query_batch_name = 'Lot2_test'
+      #indicator = 'Total'
+      
+      if quality_score_df.shape[0] != 0:
+        self.plot_quality_score('plot_quality_score', quality_score_df)
+      else:
+        log.debug('No file matched: conclusion - rank_table.tsv')
 
 
   ### Conclusion Table
@@ -173,6 +92,25 @@ class MultiqcModule(BaseMultiqcModule):
       'format': '{:.0f}'
     }
     
+    headers['Performance'] = {
+      'title': 'Performance',
+      'description': 'Performance',
+      'scale': False,
+      'format': '{:.0f}',
+      "cond_formatting_rules": {
+        "green": [{"s_eq": "high"}],
+        "lightgreen": [{"s_eq": "mid-high"}],
+        "orange": [{"s_eq": "mid-low"}],
+        "red": [{"s_eq": "low"}]
+        },
+      "cond_formatting_colours": [
+        {"green": "#0f9115"},
+        {"lightgreen": "#70c402"},
+        {"orange": "#d97c11"},
+        {"red": "#b80d0d"}
+        ]
+    }
+    
     table_config = {
       'namespace': 'conclusion_summary',
       'id': id,
@@ -186,6 +124,39 @@ class MultiqcModule(BaseMultiqcModule):
     self.add_section(
       name = 'Evaluation Metrics',
       anchor = id + '_anchor',
-      description = description if description else '',
+      description = """The submitted data to be tested can be divided into 4 levels based on the Quartile Index 
+      of the metrics scores by comparing with historical batches: 
+        <span style="color: #b80d0d;">low</span>, 
+        <span style="color: #d97c11;">mid-low</span>, 
+        <span style="color: #70c402;">mid-high</span>, 
+        <span style="color: #0f9115;">high</span>.""",
       plot = table.plot(data, headers, table_config)
     )
+
+  ### Plot: quality score
+  def plot_quality_score(self, id, quality_score_df, title=None, section_name=None, description=None, helptext=None):
+    # After transposing, there are 3 rows and n columns
+    final_data = quality_score_df[["SNR_normalized", "COR_normalized", "Total"]].T.values.tolist()
+    final_xcats = quality_score_df['batch'].to_list()
+    final_ycats = ['Normalized SNR', 'Normalized COR', 'Total Score']
+
+    pconfig = {
+      "id": id,
+      "xTitle": "Batch",
+      "yTitle": "Evaluation Metrics",
+      "decimalPlaces": 0,
+      "square": False,
+      "xcats_samples": False,
+    }
+
+    self.add_section(
+      name="Performance Score",
+      anchor= id + '_anchor',
+      description='''
+      <p>Scores of evaluation metrics for the current batch and all historical batches assessed.</p>
+      <p>Please note that the results shown here are <span style="color: #b80d0d;">Normalized Scores</span> for all batches in each metric.
+      The name of your data is <span style="color: #b80d0d;">QUERIED DATA</span>.</p>
+      ''',
+      plot=heatmap.plot(final_data, final_xcats, final_ycats, pconfig),
+    )
+

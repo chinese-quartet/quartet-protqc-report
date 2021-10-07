@@ -69,10 +69,10 @@ class MultiqcModule(BaseMultiqcModule):
     if len(data) > 0:
       pconfig = {
         "id": "correlation_plot",
-        "title": "Scatter Plot Based on Reference Dataset",
-        "xlab": "Reference Datasets",
-        "ylab": "Test Dataset",
-        "marker_size": 3,
+        "title": "Scatter Plot Based on Reference Dataset (COR)",
+        "xlab": "Test Dataset",
+        "ylab": "Reference Datasets",
+        "marker_size": 4,
         "marker_line_width": 0,
       }
 

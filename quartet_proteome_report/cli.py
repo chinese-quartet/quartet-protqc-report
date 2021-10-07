@@ -9,7 +9,9 @@ http://click.pocoo.org/5/
 import click
 
 # Sets config.kwargs['disable_plugin'] to True if specified (will be False otherwise)
-disable_plugin = click.option('--disable-plugin', 'disable_plugin',
+disable_plugin = click.option(
+  '--disable-quartet-proteome-report-plugin', 
+  'disable_plugin',
   is_flag = True,
   help = "Disable the Quartet Proteomics MultiQC plugin on this run"
 )

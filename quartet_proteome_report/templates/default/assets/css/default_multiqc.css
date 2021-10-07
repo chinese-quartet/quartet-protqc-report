@@ -691,13 +691,11 @@ input.form-control[type=color]{
     vertical-align: middle;
 }
 
-.mqc-section hr {
-    margin-top: 0px;
-}
 
-.mqc-section table {
-    margin-bottom: 0px;
-}
+
+
+
+
 
 .sorthandle {
     border-right: none;
@@ -756,12 +754,6 @@ tbody .sorthandle {
 .hc-plot {
     height: 500px;
     width: 100%;
-    position: relative;
-    min-height: 500px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
 }
 .hc-plot.not_rendered {
     background-color: #ededed;
@@ -778,12 +770,11 @@ tbody .sorthandle {
 }
 .hc-plot-wrapper{
     width: 100%;
-    height: 643px;
+    height: 612px;
     position: relative;
     border: 1px solid #dedede;
     border-bottom: 1px solid #ccc;
     margin-top: 15px;
-    min-height: 500px;
 }
 .hc-plot-handle {
     position: absolute;

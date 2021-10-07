@@ -21,8 +21,6 @@ class MultiqcModule(BaseMultiqcModule):
     super(MultiqcModule, self).__init__(
       name='Data Generation Information',
       target='The basic information',
-      #anchor='data_generation_information',
-      #href='https://github.com/clinico-omics/quartet-proteome-report',
       info=' about the proteomics data.'
     )
 
@@ -38,9 +36,9 @@ class MultiqcModule(BaseMultiqcModule):
   def plot_information(self, id, data, title='', section_name='', description=None, helptext=None):
     html_data = ["<dl class='dl-horizontal'>"]
     for k,v in data.items():
-      line = "    <dt style='text-align:left;margin-top:1ex'>{}</dt><dd>{}</dd>".format(k,v)
+      line = " <dt style='text-align:left'>{}</dt>\n <dd>{}</dd>".format(k,v)
       html_data.append(line)
-    html_data.append("  </dl>")
+    html_data.append("</dl>")
 
     html = '\n'.join(html_data)
     

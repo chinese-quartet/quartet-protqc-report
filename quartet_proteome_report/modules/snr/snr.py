@@ -24,7 +24,7 @@ class MultiqcModule(BaseMultiqcModule):
     
     # Initialise the parent module Class object
     super(MultiqcModule, self).__init__(
-      name='Signal-to-Noise Ratio (SNR)',
+      name='Signal-to-Noise Ratio',
       target='SNR',
       #anchor='snr',
       #href='https://github.com/clinico-omics/quartet-proteome-report',

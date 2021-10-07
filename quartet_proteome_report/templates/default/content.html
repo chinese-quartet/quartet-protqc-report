@@ -6,6 +6,7 @@ This block prints the main content of the report - it should loop through
 the output from each module and print it in sections.
 
 #}
+
 {% for m in report.modules_output %}
   {% if m.sections | length > 0 %}
   <div id="mqc-module-section-{{ m.anchor }}" class="mqc-module-section">

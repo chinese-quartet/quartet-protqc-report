@@ -5,7 +5,7 @@ MultiReport for Quartet Proteomics QC
 
 from setuptools import setup, find_packages
 
-version = '0.1.0'
+version = '0.3.0'
 
 setup(
   name = 'quartet_proteome_report',
@@ -21,7 +21,7 @@ setup(
   packages = find_packages(),
   include_package_data = True,
   install_requires = [
-    'multiqc==1.9',
+    'multiqc==1.11',
     'plotly==4.9.0',
     'pandas==1.1.0'
   ],
@@ -40,7 +40,7 @@ setup(
       'disable_plugin = quartet_proteome_report.cli:disable_plugin'
     ],
     'multiqc.templates.v1': [
-      'quartet_proteome_report = quartet_proteome_report.templates.default'
+      'report_templates = quartet_proteome_report.templates.default'
     ]
   },
   classifiers = [
