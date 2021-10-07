@@ -43,8 +43,11 @@ def quartet_proteome_report_execution_start():
     config.update_dict( config.sp, { 'data_generation_information/information': { 'fn_re': '^general_information.json$' } } )
 
   # Module-conclusion
-  if 'conclusion/table' not in config.sp:
-    config.update_dict( config.sp, { 'conclusion/table': { 'fn_re': '^conclusion_table.tsv$' } } )
+  if 'conclusion/conclusion_table' not in config.sp:
+    config.update_dict( config.sp, { 'conclusion/conclusion_table': { 'fn_re': '^conclusion_table.tsv$' } } )
+  
+  if 'conclusion/rank_table' not in config.sp:
+    config.update_dict( config.sp, { 'conclusion/rank_table': { 'fn_re': '^rank_table.tsv$' } } )
   
   # Module-snr
   if 'snr/table' not in config.sp:
