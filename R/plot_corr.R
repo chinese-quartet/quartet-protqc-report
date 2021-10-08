@@ -83,15 +83,20 @@ plot_corr <- function(expr_dt_path,meta_dt_path,output_dir){
 
   cor_value_rank_length <- length(rank(c(cor_value,snrcorr$COR)))
   cor_value_rank <- c(cor_value_rank_length-rank(c(cor_value,snrcorr$COR))[1]+1)
+  if(cor_value_rank/cor_value_rank_length<=0.25){cor_value_performance <- "high"
+  }else if(cor_value_rank/cor_value_rank_length<=0.5){cor_value_performance <- "mid-high"
+  }else if(cor_value_rank/cor_value_rank_length<=0.75){cor_value_performance <- "mid-low"
+  }else cor_value_performance <- "low"
 
   historical_mean <- round(mean(snrcorr$COR),3)
   historical_sd <- round(sd(snrcorr$COR),3)
 
   output_cor_value <- data.table(
-    "Quality Metrics" = c("Correlation with Reference Datasets"),
-    Value = c(cor_value),
-    "Historical value(mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
-    Rank = c(paste(as.character(cor_value_rank),'/',cor_value_rank_length,sep = ''))
+    "Quality Metrics" = c("Correlation with Reference Datasets (COR)"),
+    "Value" = c(cor_value),
+    "Historical Value (mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
+    "Rank" = c(paste(as.character(cor_value_rank),'/',cor_value_rank_length,sep = '')),
+    "Performance" = cor_value_performance
   )
 
   test_dt <- data.frame(test_dt)

@@ -20,11 +20,13 @@ table_conclusion <- function(expr_dt_path,meta_dt_path,output_dir){
 
   output_signoise_db <- plot_pca(expr_dt_path,meta_dt_path,output_dir)
   output_cor_value <- plot_corr(expr_dt_path,meta_dt_path,output_dir)
-  output_conclusion <- rbind(output_signoise_db,output_cor_value)
 
   ref_snrcorr_dir <- file.path(system.file(package = "ProtQC"), "data/ref_snrcorr.rds")
   snrcorr <- readRDS(ref_snrcorr_dir)
-  snrcorr_new <- rbind(snrcorr,data.frame(batch='Lot2_test',SNR=output_conclusion$Value[1],COR=output_conclusion$Value[2]))
+  snrcorr_new <- rbind(snrcorr,data.frame(
+    batch='QUERIED DATA',
+    SNR=output_signoise_db$Value,
+    COR=output_cor_value$Value))
 
   snr_max <- max(snrcorr_new$SNR)
   snr_min <- min(snrcorr_new$SNR)
@@ -42,6 +44,22 @@ table_conclusion <- function(expr_dt_path,meta_dt_path,output_dir){
         }else if(between(x,total_quantiles[3],total_quantiles[4])){return("mid-high")
           }else if(between(x,total_quantiles[4],total_quantiles[5])) return("high")
   })
+
+  total_score_pos <- rank(c(snrcorr_new$Total[snrcorr_new$batch%in%"QUERIED DATA"],snrcorr_new$Total))[1]
+  total_score_rank <- c(nrow(snrcorr_new)-total_score_pos+1)
+
+  historical_mean <- round(mean(snrcorr_new$Total),3)
+  historical_sd <- round(sd(snrcorr_new$Total),3)
+
+  output_total_score <- data.table(
+    "Quality Metrics" = c("Total Score"),
+    "Value" = snrcorr_new$Total[snrcorr_new$batch%in%"QUERIED DATA"],
+    "Historical Value (mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
+    "Rank" = c(paste(as.character(total_score_rank),'/',nrow(snrcorr_new),sep = '')),
+    "Performance" = snrcorr_new$Class[snrcorr_new$batch%in%"QUERIED DATA"]
+  )
+
+  output_conclusion <- rbind(output_signoise_db,output_cor_value,output_total_score)
 
   output_dir_rank <- file.path(output_dir,'rank_table.tsv')
   output_dir_final <- file.path(output_dir,'conclusion_table.tsv')

@@ -54,15 +54,21 @@ plot_pca <- function(expr_dt_path,meta_dt_path,output_dir){
   signoise_db <- round(10*log10(signoise),3)
   signoise_db_rank_length <- length(rank(c(signoise_db,snrcorr$SNR)))
   signoise_db_rank <- c(signoise_db_rank_length-rank(c(signoise_db,snrcorr$SNR))[1]+1)
+  if(signoise_db_rank/signoise_db_rank_length<=0.25){signoise_db_performance <- "high"
+  }else if(signoise_db_rank/signoise_db_rank_length<=0.5){signoise_db_performance <- "mid-high"
+  }else if(signoise_db_rank/signoise_db_rank_length<=0.75){signoise_db_performance <- "mid-low"
+  }else signoise_db_performance <- "low"
+
 
   historical_mean <- round(mean(snrcorr$SNR),3)
   historical_sd <- round(sd(snrcorr$SNR),3)
 
   output_signoise_db <- data.table(
     "Quality Metrics" = c("Signal-to-Noise Ratio (SNR)"),
-    Value = c(signoise_db),
-    "Historical value(mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
-    Rank = c(paste(as.character(signoise_db_rank),'/',signoise_db_rank_length,sep = ''))
+    "Value" = c(signoise_db),
+    "Historical Value (mean ± SD)" = paste(historical_mean,' ± ',historical_sd,sep = ''),
+    "Rank" = c(paste(as.character(signoise_db_rank),'/',signoise_db_rank_length,sep = '')),
+    "Performance" = c(signoise_db_performance)
   )
 
   colors.sample.Quartet<- c('D5' = '#4CC3D9','D6' = '#7BC8A4','F7' = '#FFC65D','M8' = '#F16745')
