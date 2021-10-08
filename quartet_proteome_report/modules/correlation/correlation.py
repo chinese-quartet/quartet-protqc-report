@@ -72,7 +72,7 @@ class MultiqcModule(BaseMultiqcModule):
         "title": "Scatter Plot Based on Reference Dataset (COR)",
         "xlab": "Test Dataset",
         "ylab": "Reference Datasets",
-        "marker_size": 4,
+        "marker_size": 5,
         "marker_line_width": 0,
       }
 
