@@ -1,16 +1,22 @@
 info:
   name: QC Report for Quartet Proteomics
-  version: v0.1.1
+  version: v0.1.3
   description: Generate the QC Report for Quartet Proteomics data.
   category: Report
-  home: https://github.com/tservice-plugins/quartet-protqc-report
+  home: https://github.com/chinese-quartet/quartet-protqc-report
   source: PGx
   short_name: quartet-protqc-report
   icons:
     - src: ""
       type: image/png
       sizes: 192x192
-  author: PGx
+  author: Jingcheng Yang
+  maintainers:
+    - Jingcheng Yang
+  tags:
+    - R
+    - Chart
+  readme: https://github.com/chinese-quartet/quartet-protqc-report/blob/master/README.md
 plugin:
   name: quartet-protqc-report
   display-name: QC Report for Quartet Proteomics
@@ -18,11 +24,21 @@ plugin:
 init:
   # Unpack environment file to the directory, repository/envs/quartet-protqc-report
   - step: unpack-env
-    envname: quartet-protqc-report
-    postunpack: chmod a+x {{ENV_DEST_DIR}}/bin/protqc.sh
+    envtype: environment
+    envname: bin
+    postunpack: chmod a+x {{ENV_DIR}}/bin/protqc.sh
+  - step: unpack-env
+    envtype: environment
+    envname: renv
+  - step: unpack-env
+    envtype: environment
+    envname: requirements.txt
+  - step: unpack-env
+    envtype: environment
+    envname: renv.lock
   - step: load-namespace
-    namespace: tservice.plugins.quartet-protqc-report
+    namespace: quartet-protqc-report.core
   - step: register-plugin
-    entrypoint: tservice.plugins.quartet-protqc-report/metadata
+    entrypoint: quartet-protqc-report.core/metadata
   - step: init-event
-    entrypoint: tservice.plugins.quartet-protqc-report/events-init
+    entrypoint: quartet-protqc-report.core/events-init
