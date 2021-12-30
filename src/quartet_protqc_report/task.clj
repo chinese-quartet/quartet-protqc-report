@@ -68,7 +68,7 @@
                                 :plugin-version (:plugin-version plugin-context)}})
     response))
 
-(defn- make-report!
+(defn make-report!
   [{:keys [data-file metadata-file dest-dir metadata task-id]}]
   (let [log-path (fs-lib/join-paths dest-dir "log")
         result-dir (fs-lib/join-paths dest-dir "results")

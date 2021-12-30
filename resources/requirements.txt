@@ -1,1 +1,1 @@
-git+git://github.com/chinese-quartet/quartet-proteome-report@v0.3.3
+git+git://github.com/chinese-quartet/quartet-protqc-report.git#subdirectory=report

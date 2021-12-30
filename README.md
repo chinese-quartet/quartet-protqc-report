@@ -1,34 +1,58 @@
 # quartet-protqc-report
 
-FIXME: description
+Visualizes Quality Control(QC) results for Quartet Project.
 
-## Installation
+## Standalone Mode
+### Prerequisite
 
-Download from http://example.com/FIXME.
+- Bash
+- Python3 >= 3.7
+- virtualenv
+- pip3
+- R >= 3.6.3
+### Installation
 
-## Usage
+```
+# Clone the repo
+git clone https://github.com/chinese-quartet/quartet-protqc-report
 
-FIXME: explanation
+cd quartet-protqc-report
 
-## Options
+# Build the environment and compile the quartet-protqc-report
+make
+```
 
-FIXME: listing of options this app accepts.
+### Usage
+
+```bash
+source .env/bin/activate
+java -jar target/uberjar/quartet-protqc-report-*-standalone.jar -h
+```
+
+## Plugin Mode
+
+### Prerequisite
+
+Please access [Quartet Service](https://github.com/chinese-quartet/quartet-service) for more details 
+
+### Installation
+
+```bash
+copm-cli install -n quartet-protqc-report -V v0.1.2 -d plugins
+```
 
 ## Examples
 
 ...
 
-### Bugs
+## Contributions
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+- [ProtQC](./protqc) developed by [Qiaochu Chen](https://github.com/QiaochuChen)
+- [MultiReport](./report) developed by [Yaqing Liu](https://github.com/lyaqing)
 
 ## License
 
-Copyright © 2021 FIXME
+Copyright © 2021
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
