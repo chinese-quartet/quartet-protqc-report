@@ -1,0 +1,7 @@
+include Makefile CHANGES.rst CONTRIBUTING.rst LICENSE AUTHORS config.py LICENSE.md LICENSE
+
+recursive-include quartet_proteome_report *
+
+recursive-exclude quartet_proteome_report __pycache__
+
+global-exclude *.py[co] .DS_Store __pycache__

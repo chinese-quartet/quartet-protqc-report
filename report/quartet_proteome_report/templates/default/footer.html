@@ -1,0 +1,26 @@
+{# #######################
+  footer.html
+##########################
+
+Content for the report footer.
+
+#}
+
+<p>
+    <a href="http://pgx.fudan.edu.cn" target="_blank" class="pull-right">
+        <img src="data:image/png;base64,{{ include_file('assets/img/pgx-logo.png', b64=True) }}" style="height:41px;">
+    </a>
+    <strong>
+        <a href="https://github.com/clinico-omics/rnaseq-report" target="_blank">MultiReport v{{ config.version }}</a>
+    </strong>
+    - Based on <a href="http://phil.ewels.co.uk" target="_blank">Phil Ewels</a>,
+    available on <a href="https://github.com/clinico-omics/rnaseq-report" target="_blank">RNA-Seq Report</a>.
+</p>
+<p>
+    This report uses <a href="http://www.highcharts.com/" target="_blank">HighCharts</a>,
+    <a href="https://jquery.com/" target="_blank">jQuery</a>,
+    <a href="https://jqueryui.com/" target="_blank">jQuery UI</a>,
+    <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>,
+    <a href="https://github.com/eligrey/FileSaver.js" target="_blank">FileSaver.js</a> and
+    <a href="https://clipboardjs.com/" target="_blank">clipboard.js</a>.
+</p>
