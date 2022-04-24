@@ -48,15 +48,16 @@
     },
     "ProtQC": {
       "Package": "ProtQC",
-      "Version": "0.1.4",
+      "Version": "0.1.6",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
-      "RemoteRepo": "ProtQC",
+      "RemoteRepo": "quartet-protqc-report",
       "RemoteUsername": "chinese-quartet",
-      "RemoteRef": "v0.1.4",
-      "RemoteSha": "412e0040e713af756ee1c5381f352b2c04df96f5",
-      "Hash": "7251a9d21c0c5d39f251d4e1a488a203"
+      "RemoteRef": "HEAD",
+      "RemoteSha": "754524b0dbc665f9e62672119ee83f35ba47f898",
+      "RemoteSubdir": "protqc",
+      "Hash": "bac7b2bdff113ccd262a9ffebe9a1b76"
     },
     "R6": {
       "Package": "R6",

@@ -35,6 +35,9 @@ init:
     envname: requirements.txt
   - step: unpack-env
     envtype: environment
+    envname: .Rprofile
+  - step: unpack-env
+    envtype: environment
     envname: renv.lock
   - step: load-namespace
     namespace: quartet-protqc-report.core
