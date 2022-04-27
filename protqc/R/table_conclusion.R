@@ -46,7 +46,7 @@ table_conclusion <- function(expr_dt_path,meta_dt_path,output_dir){
   })
 
   total_score_pos <- rank(c(snrcorr_new$Total[snrcorr_new$batch%in%"QUERIED DATA"],snrcorr_new$Total))[1]
-  total_score_rank <- c(nrow(snrcorr_new)-total_score_pos+1)
+  total_score_rank <- floor(c(nrow(snrcorr_new)-total_score_pos+1))
 
   historical_mean <- round(mean(snrcorr_new$Total),3)
   historical_sd <- round(sd(snrcorr_new$Total),3)
