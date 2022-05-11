@@ -42,6 +42,16 @@ class MultiqcModule(BaseMultiqcModule):
         <p>Relative expression data (fold changes) were calculated for a total of six pairs of sample-to-sample comparisons (D6/D5, F7/D5, M8/D5, F7/D6, M8/D6, and M8/F7) among the Quartet samples. In order to improve the reliability of the reference values, genes that were satisfied with thresholds of p < 0.05 and detectable across the two samples in each sample pair were used.</p>
         </div>
       </div>
+      
+      <!-- Contact us -->
+      <div class='contact'>
+        <div class='small-12 columns'>
+        <h3 class='section-header black'>Contact us</h3>
+          <b>Fudan University Pharmacogenomics Research Center</b>
+          <li>Project manager: Quartet Team</li>
+          <li>Email: quartet@fudan.edu.cn</li>
+        </div>
+      </div>
 
       <!-- Disclaimer -->
       <div class='disclaimer'>
