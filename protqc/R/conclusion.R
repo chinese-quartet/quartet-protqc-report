@@ -78,27 +78,32 @@ table_conclusion <- function(pro_path, meta_path,
     output_class <- c(output_class, x_class)
   }
 
+  his_ref <- as.numeric(ref_qc_norm$Total)
   total_value <- round(geometric.mean(as.numeric(output_norm)), 3)
+  total_norm <- qc_linear_norm(total_value, min(his_ref), max(his_ref))
 
   output_table <- rbind(output_table, data.table(
     "Quality Metrics" = "Total Score",
-    "Value" = total_value
+    "Value" = total_norm
   ))
 
   ref_qc_norm_new <- rbind(
-    ref_qc_norm, c('QUERIED DATA',output_norm[c(3, 4, 2, 1, 6, 5)],total_value)
+    ref_qc_norm, c(
+      'QUERIED DATA',
+      output_norm[c(3, 4, 2, 1, 6, 5)],
+      total_value,total_norm
+    )
   )
 
-  his_ref <- as.numeric(ref_qc_norm$Total)
   his_mean <- round(mean(his_ref, na.rm = T),3)
   his_sd <- round(sd(his_ref, na.rm = T),3)
   his_ms <- paste(his_mean,' ± ',his_sd,sep = '')
 
-  total_ref <- as.numeric(ref_qc_norm_new$Total)
+  total_ref <- as.numeric(ref_qc_norm_new$Total_norm)
   total_pos <- floor(rank(-total_ref)[nrow(ref_qc_norm_new)])
   total_rank <- c(paste(total_pos,'/', length(total_ref),sep = ''))
   total_ref_perc <- quantile(total_ref, c(0, 0.2, 0.5, 0.8, 1))
-  if(between(total_value,total_ref_perc[1],total_ref_perc[2])) {
+  if(between(total_norm,total_ref_perc[1],total_ref_perc[2])) {
     total_class <- 'Bad'
   }else if(between(total_value,total_ref_perc[2],total_ref_perc[3])) {
     total_class <- "Fair"
@@ -120,7 +125,7 @@ table_conclusion <- function(pro_path, meta_path,
   total_cf <- paste((1-round(total_pos/length(total_ref),4))*100,'%',sep = '')
   output_cutoff <- data.table(
     'Cut-off' = c('0%', '20%', '50%', '80%', '100%', total_cf),
-    'Percentile' = c(total_ref_perc, total_value)
+    'Percentile' = c(total_ref_perc, total_norm)
   )
 
   if(!is.null(output_dir)){
