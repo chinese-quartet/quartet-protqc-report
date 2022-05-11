@@ -65,13 +65,17 @@ qc_history <- function(historical_pro_path, historical_pep_path,
     df_wide_norm <- cbind(df_wide_norm, x_norm)
   }
 
-  df_wide_norm <- cbind(
-    df_wide$Batch,
-    df_wide_norm,
-    apply(df_wide_norm, 1, function(x) {round(geometric.mean(as.numeric(x)), 3)}
-    ))
+  df_wide_norm <- cbind(df_wide$Batch, df_wide_norm,
+    apply(df_wide_norm, 1, function(x) {
+        round(geometric.mean(as.numeric(x)), 3)})
+  )
   colnames(df_wide_norm) <- c(colnames(df_wide), 'Total')
   df_wide_norm <- as.data.frame(df_wide_norm)
+
+  total_all <- as.numeric(df_wide_norm$Total)
+  total_max <- max(total_all, na.rm = T)
+  total_min <- min(total_all, na.rm = T)
+  df_wide_norm$Total_norm <- qc_linear_norm(total_all, total_min, total_max)
 
   return(list(
     'historical_qc_statisctics' = df_wide,
