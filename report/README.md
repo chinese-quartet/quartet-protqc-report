@@ -19,7 +19,7 @@ To use this plugin, you need to install MultiQC and install `quartet-proteome-re
 pip install multiqc
 
 # Install quartet-proteome-report
-git clone https://github.com/clinico-omics/quartet-proteome-report.git
+git clone https://github.com/chinese-quartet/quartet-protqc-report.git
 cd quartet-proteome-report
 python setup.py install
 ```
@@ -42,8 +42,8 @@ If you're developing this code, you'll want to clone it locally and install
 it manually instead of using `pip`:
 
 ```shell
-git clone https://github.com/clinico-omics/quartet-proteome-report.git
-cd quartet-proteome-report
+git clone https://github.com/chinese-quartet/quartet-protqc-report.git
+cd report/quartet-proteome-report
 # You don't need to rerun the installation every time you make an edit (though you still do if you change anything in setup.py).
 python setup.py develop
 ```

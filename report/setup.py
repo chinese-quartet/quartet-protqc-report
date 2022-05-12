@@ -5,7 +5,7 @@ MultiReport for Quartet Proteomics QC
 
 from setuptools import setup, find_packages
 
-version = '0.3.2'
+version = '0.4.0'
 
 setup(
   name = 'quartet_proteome_report',
@@ -15,19 +15,21 @@ setup(
   description = 'MultiReport for Quartet Proteomics QC.',
   long_description = __doc__,
   keywords = 'bioinformatics',
-  url = 'https://github.com/clinico-omics/quartet-proteome-report',
-  download_url = 'https://github.com/clinico-omics/quartet-proteome-report/releases',
+  url = 'https://github.com/chinese-quartet/quartet-protqc-report',
+  download_url = 'https://github.com/chinese-quartet/quartet-protqc-report/releases',
   license = 'MIT',
   packages = find_packages(),
   include_package_data = True,
   install_requires = [
     'multiqc==1.11',
     'plotly==4.9.0',
-    'pandas==1.1.0'
+    'pandas==1.2.4',
+    'seaborn==0.11.2',
+    'Cython==0.29.28'
   ],
   entry_points = {
     'multiqc.modules.v1': [
-      'data_generation_information = quartet_proteome_report.modules.data_generation_information:MultiqcModule',
+      'general_information = quartet_proteome_report.modules.general_information:MultiqcModule',
       'conclusion = quartet_proteome_report.modules.conclusion:MultiqcModule',
       'snr = quartet_proteome_report.modules.snr:MultiqcModule',
       'correlation = quartet_proteome_report.modules.correlation:MultiqcModule',
