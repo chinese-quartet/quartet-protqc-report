@@ -13,8 +13,9 @@ qc_info <- function(expr_dt, meta_dt) {
   d[d == 0] <- NA
   stat_num <- length(unique(d[, 1]))
 
-  d_missings <- apply(d, 2, function(x) length(which(is.na(x))))
-  stat_missing <- round(median(d_missings)*100 / stat_num, 3)
+  d_missings <- length(which(is.na(d)))
+  d_values <- nrow(d) * (ncol(d) - 1)
+  stat_missing <- round(d_missings*100 / d_values, 3)
 
   d_cortest <- corr.test(d[, 2:ncol(d)], method = 'pearson', adjust="fdr")
   d_cormtx <- d_cortest$r
@@ -30,13 +31,17 @@ qc_info <- function(expr_dt, meta_dt) {
   stat_repcor <- round(median(d_cordf$value), 3)
 
   d_long <- melt(d)
-  d_long$value2 <- 2^(d_long$value)
   d_long <- na.omit(d_long)
-  colnames(d_long) <- c('feature', "variable", "value", "value2")
+  if(length(d_long$value[d_long$value < 0])) {
+    d_long$value <- 2^(d_long$value)
+    print("All values were squared to avoid negative values.")
+  }
+  d_long <- merge(d_long, m, by.x = "variable", by.y = 'library')
+  colnames(d_long) <- c("library", 'feature', "value", "sample")
   d_cv <- aggregate(
-    value2 ~ feature, data = d_long,
+    value ~ feature + sample, data = d_long,
     FUN = function(x) sd(x)/mean(x))
-  stat_cv <- round(median(d_cv$value2, na.rm = T) * 100, 3)
+  stat_cv <- round(median(d_cv$value, na.rm = T) * 100, 3)
 
   stat_all <- data.table(
     "Quality Metrics" = c(

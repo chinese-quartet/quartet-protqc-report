@@ -95,8 +95,9 @@ table_conclusion <- function(pro_path, meta_path,
     )
   )
 
-  his_mean <- round(mean(his_ref, na.rm = T),3)
-  his_sd <- round(sd(his_ref, na.rm = T),3)
+  his_ref_norm <- as.numeric(ref_qc_norm$Total_norm)
+  his_mean <- round(mean(his_ref_norm, na.rm = T),3)
+  his_sd <- round(sd(his_ref_norm, na.rm = T),3)
   his_ms <- paste(his_mean,' ± ',his_sd,sep = '')
 
   total_ref <- as.numeric(ref_qc_norm_new$Total_norm)
