@@ -75,9 +75,9 @@ class MultiqcModule(BaseMultiqcModule):
   ### Function 1: Evaluation metrics
   def plot_summary_table(self, id, table_data, score_bar, title='', section_name='', description=None, helptext=None):
     """ Create the HTML for Performance Conclusion """
-    Q1 = score_bar.loc[1, 'Percentile']
-    Q2 = score_bar.loc[2, 'Percentile']
-    Q3 = score_bar.loc[3, 'Percentile']
+    Q1 = format(score_bar.loc[1, 'Percentile'], '.2f')
+    Q2 = format(score_bar.loc[2, 'Percentile'], '.2f')
+    Q3 = format(score_bar.loc[3, 'Percentile'], '.2f')
     # Calculate percentage
     total = table_data['Total Score']['Rank'].split('/')[1]
     bad_len = 20; bad = "%.2f%s" % (bad_len, '%')
@@ -86,7 +86,7 @@ class MultiqcModule(BaseMultiqcModule):
     great_len = 20; great = "%.2f%s" % (great_len, '%')
     # Queried data arrow and score
     # score_bar = score_bar.loc[5, 'Cut-off']
-    score = score_bar.loc[5, 'Percentile']
+    score = format(score_bar.loc[5, 'Percentile'], '.2f')
     queried = "%.2f%s" % (float(score_bar.loc[5, 'Cut-off'].strip('%'))*2, '%') #(((total-float(score_bar.strip('%')))*2/total + 1/total) * 100, '%')
     if float(score) <= 1:
       queried = "0%"
@@ -123,6 +123,7 @@ class MultiqcModule(BaseMultiqcModule):
     <br>
     """.format(queried=queried, score=score, bad=bad, fair=fair, good=good, great=great, Q1=Q1, Q2=Q2, Q3=Q3, tick_Q1=tick_Q1, tick_Q2=tick_Q2, tick_Q3=tick_Q3)
     
+    print(table_data)
     headers = OrderedDict()
     headers['Value'] = {
       'title': 'Value',
