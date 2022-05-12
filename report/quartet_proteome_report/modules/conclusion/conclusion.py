@@ -64,7 +64,7 @@ class MultiqcModule(BaseMultiqcModule):
       f_p = '%s/%s' % (f['root'], f['fn'])
       quality_score_df = pd.read_csv(f_p, sep = "\t")
       # Sort the dataframe by total score
-      quality_score_df.sort_values('Total', inplace=True, ascending=False)
+      quality_score_df.sort_values('Total', inplace=True, ascending=True)
       
       if quality_score_df.shape[0] != 0:
         self.plot_quality_score('plot_quality_score', quality_score_df)
@@ -86,7 +86,7 @@ class MultiqcModule(BaseMultiqcModule):
     great_len = 20; great = "%.2f%s" % (great_len, '%')
     # Queried data arrow and score
     # score_bar = score_bar.loc[5, 'Cut-off']
-    score = format(score_bar.loc[5, 'Percentile'], '.2f')
+    score = format(score_bar.loc[5, 'Percentile'], '.3f')
     queried = "%.2f%s" % (float(score_bar.loc[5, 'Cut-off'].strip('%'))*2, '%') #(((total-float(score_bar.strip('%')))*2/total + 1/total) * 100, '%')
     if float(score) <= 1:
       queried = "0%"
@@ -95,7 +95,7 @@ class MultiqcModule(BaseMultiqcModule):
       queried = "200%"
       score = 10
     # Position of ticks
-    tick_Q1 = "%.2f%s" % (bad_len-0.8, '%')
+    tick_Q1 = "%.2f%s" % (bad_len-0.9, '%')
     tick_Q2 = "%.2f%s" % (bad_len+fair_len-1, '%')
     tick_Q3 = "%.2f%s" % (bad_len+fair_len+good_len-1, '%')
     # print(tick_Q1, tick_Q2, tick_Q3)
@@ -123,20 +123,19 @@ class MultiqcModule(BaseMultiqcModule):
     <br>
     """.format(queried=queried, score=score, bad=bad, fair=fair, good=good, great=great, Q1=Q1, Q2=Q2, Q3=Q3, tick_Q1=tick_Q1, tick_Q2=tick_Q2, tick_Q3=tick_Q3)
     
-    print(table_data)
     headers = OrderedDict()
     headers['Value'] = {
       'title': 'Value',
       'description': 'Value',
       'scale': False,
-      'format': '{0:.2f}'
+      'format': '{0:.3f}'
     }
 
     headers['Historical Value (mean ± SD)'] = {
       'title': 'Historical Value',
       'description': 'Historical value(mean ± SD)',
       'scale': False,
-      'format': '{0:.2f}'
+      'format': '{0:.3f}'
     }
 
     headers['Rank'] = {
@@ -223,7 +222,7 @@ class MultiqcModule(BaseMultiqcModule):
       "xcats_samples": False,
       "reverseColors": True,
       "height": 251,
-      "borderWidth": 0.1
+      "borderWidth": 0
     }
     
     self.add_section(

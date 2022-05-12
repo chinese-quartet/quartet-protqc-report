@@ -5,7 +5,7 @@ MultiReport for Quartet Proteomics QC
 
 from setuptools import setup, find_packages
 
-version = '0.3.2'
+version = '0.4.0'
 
 setup(
   name = 'quartet_proteome_report',
