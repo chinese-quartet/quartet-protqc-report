@@ -1,7 +1,6 @@
 #' Generating a table of conclusion
 #'
-#' @param pro_path A file path of the expression table file (at protein level)
-#' @param pep_path A file path of the expression table file (at peptide level)
+#' @param exp_path A file path of the expression table file
 #' @param meta_path A file path of the metadata file
 #' @param output_dir A directory of the output file(s)
 #' @import data.table
@@ -9,8 +8,7 @@
 #' @importFrom psych geometric.mean
 #' @export
 
-table_conclusion <- function(pro_path, meta_path,
-                             output_dir = NULL, pep_path = NULL){
+table_conclusion <- function(exp_path, meta_path, output_dir = NULL){
   ref_qc_dir <- file.path(
     system.file(package = "protqc"), "data/historical_qc.rds")
   ref_qc_norm_dir <- file.path(
@@ -18,7 +16,7 @@ table_conclusion <- function(pro_path, meta_path,
   ref_qc <- readRDS(ref_qc_dir)
   ref_qc_norm <- readRDS(ref_qc_norm_dir)
 
-  data_list <- input_data(pro_path,meta_path,pep_path)
+  data_list <- input_data(exp_path,meta_path)
   pro_data <- data_list$expdata_proteinLevel
   meta <- data_list$metadata
 
@@ -26,7 +24,7 @@ table_conclusion <- function(pro_path, meta_path,
   snr_results <- qc_snr(pro_data, meta, output_dir)
   snr_value <- snr_results$SNR
 
-  if(!is.null(pep_path)) {
+  if(length(data_list) == 3) {
     pep_data <- data_list$expdata_peptideLevel
     cor_results <- qc_cor(pep_data, meta, output_dir)
     cor_value <- cor_results$COR
@@ -55,22 +53,29 @@ table_conclusion <- function(pro_path, meta_path,
     x_ref_sd <- round(sd(x_ref, na.rm = T),3)
     x_ref_ms <- paste(x_ref_mean,' ± ',x_ref_sd,sep = '')
 
-    x_max <- max(x_ref, na.rm = T)
-    x_min <- min(x_ref, na.rm = T)
-    if(m %in% c('Coefficient of variantion (CV, %)','Missing percentage (%)')){
-      x_norm <- qc_linear_norm(x, x_min, x_max, decreasing = T)
-    }else {
-      x_norm <- qc_linear_norm(x, x_min, x_max)
-    }
-    x_all <- c(x_norm,x_ref_norm[!is.na(x_ref_norm)])
-    x_pos <- floor(rank(-x_all)[1])
-    x_rank <- c(paste(x_pos,'/', length(x_all),sep = ''))
+    if(!is.na(x)){
+      x_max <- max(x_ref, na.rm = T)
+      x_min <- min(x_ref, na.rm = T)
+      if(m %in% c(
+        'Coefficient of variantion (CV, %)','Missing percentage (%)')){
+        x_norm <- qc_linear_norm(x, x_min, x_max, decreasing = T)
+      }else {
+        x_norm <- qc_linear_norm(x, x_min, x_max)
+      }
+      x_all <- c(x_norm,x_ref_norm[!is.na(x_ref_norm)])
+      x_pos <- floor(rank(-x_all)[1])
+      x_rank <- c(paste(x_pos,'/', length(x_all),sep = ''))
 
-    x_ref_perc <- quantile(x_ref_norm, c(0, 0.2, 0.5, 0.8, 1), na.rm = T)
-    if(between(x_norm,x_ref_perc[1],x_ref_perc[2])) {x_class <- 'Bad'
-    }else if(between(x_norm,x_ref_perc[2],x_ref_perc[3])) {x_class <- "Fair"
-    }else if(between(x_norm,x_ref_perc[3],x_ref_perc[4])) {x_class <- "Good"
-    }else if(between(x_norm,x_ref_perc[4],x_ref_perc[5])) x_class <- "Great"
+      x_ref_perc <- quantile(x_ref_norm, c(0, 0.2, 0.5, 0.8, 1), na.rm = T)
+      if(between(x_norm,x_ref_perc[1],x_ref_perc[2])) {x_class <- 'Bad'
+      }else if(between(x_norm,x_ref_perc[2],x_ref_perc[3])) {x_class <- "Fair"
+      }else if(between(x_norm,x_ref_perc[3],x_ref_perc[4])) {x_class <- "Good"
+      }else if(between(x_norm,x_ref_perc[4],x_ref_perc[5])) x_class <- "Great"
+    }else {
+      x_norm <- NA
+      x_rank <- NA
+      x_class <- NA
+    }
 
     output_ms <- c(output_ms, x_ref_ms)
     output_norm <- c(output_norm, x_norm)
