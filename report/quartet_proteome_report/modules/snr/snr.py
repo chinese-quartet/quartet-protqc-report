@@ -24,11 +24,7 @@ class MultiqcModule(BaseMultiqcModule):
     
     # Initialise the parent module Class object
     super(MultiqcModule, self).__init__(
-      name='Signal-to-Noise Ratio',
-      target='SNR',
-      #anchor='snr',
-      #href='https://github.com/clinico-omics/quartet-proteome-report',
-      info=' is established to characterize the power in discriminating multiple groups. The PCA plot is used to visualise the metric.'
+      name='Signal-to-Noise Ratio'
     )
 
     # Find and load any input files for snr
@@ -41,14 +37,14 @@ class MultiqcModule(BaseMultiqcModule):
       f_p = '%s/%s' % (f['root'], f['fn'])
       
       content = pd.read_csv(f_p, sep = "\t")
-      self.quartet_cats = list(set(content["group"].to_list()))
+      self.quartet_cats = list(set(content["Sample"].to_list()))
       keys = content.columns.to_list()
       for index,row in content.iterrows():
         snr_pca_table.append(dict(zip(keys, row)))
       
       for i in snr_pca_table:
-        key = i['sample_id']
-        pop_i = i.pop('sample_id')
+        key = i['Sample.ID']
+        pop_i = i.pop('Sample.ID')
         self.snr_pca_data[key] = i
       
     # Now add a PCA plot
@@ -66,7 +62,7 @@ class MultiqcModule(BaseMultiqcModule):
         data[s_name] = {
           "x": d["PC1"],
           "y": d["PC2"],
-          "color": self.quartet_colors[d["group"]],
+          "color": self.quartet_colors[d["Sample"]],
         }
     
     # generate section and plot
@@ -82,11 +78,13 @@ class MultiqcModule(BaseMultiqcModule):
 
       self.add_section(
         name="",
-        description = """Points are coloured as follows: 
-        <span style="color: #4CC3D9;">D5</span>, 
-        <span style="color: #7BC8A4;">D6</span>, 
-        <span style="color: #FFC65D;">F7</span>, 
-        <span style="color: #F16745;">M8</span>.""",
+        description = """
+        SNR is established to characterize the power in discriminating multiple groups. The PCA plot is used to visualise the metric.<br>
+        Points are coloured as follows: 
+        <span style="color: #4CC3D9;"><b>D5</b></span>, 
+        <span style="color: #7BC8A4;"><b>D6</b></span>, 
+        <span style="color: #FFC65D;"><b>F7</b></span>, 
+        <span style="color: #F16745;"><b>M8</b></span>.""",
         anchor="snr-pca",
         plot=scatter.plot(data, pconfig)
       )

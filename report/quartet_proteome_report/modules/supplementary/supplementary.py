@@ -52,7 +52,7 @@ class MultiqcModule(BaseMultiqcModule):
           <li>Email: quartet@fudan.edu.cn</li>
         </div>
       </div>
-
+      
       <!-- Disclaimer -->
       <div class='disclaimer'>
         <div class='small-12 columns'>

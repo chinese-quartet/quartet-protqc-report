@@ -44,8 +44,8 @@ class MultiqcModule(BaseMultiqcModule):
         corr_pca_table.append(dict(zip(keys, row)))
       
       for i in corr_pca_table:
-        key = i['gene']
-        pop_i = i.pop('gene')
+        key = i['Name']
+        pop_i = i.pop('Name')
         self.corr_pca_data[key] = i
     
     # Now add a Scatter plot
@@ -60,8 +60,8 @@ class MultiqcModule(BaseMultiqcModule):
     # cycle over samples and add PC coordinates to data dict
     for s_name, d in self.corr_pca_data.items():
       data[s_name] = {
-        "x": d["logFC.x"],
-        "y": d["logFC.y"],
+        "x": d["logFC.Reference"],
+        "y": d["logFC.Test"],
         "color": "rgb(54,100,139,0.5)" # stellblue4
       }
     
@@ -69,11 +69,16 @@ class MultiqcModule(BaseMultiqcModule):
     if len(data) > 0:
       pconfig = {
         "id": "correlation_plot",
-        "title": "Scatter Plot Based on Reference Dataset (COR)",
-        "xlab": "Test Dataset",
-        "ylab": "Reference Datasets",
+        "title": "Relative Correlation with Reference Datasets (RC)",
+        "xlab": "Reference Datasets",
+        "ylab": "Test Dataset",
         "marker_size": 5,
         "marker_line_width": 0,
+        "xmax": 6,
+        "xmin": -6, 
+        "ymax": 6,
+        "ymin": -6, 
+        "square": True,
       }
 
       self.add_section(
