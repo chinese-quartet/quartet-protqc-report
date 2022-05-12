@@ -1,4 +1,4 @@
-#' Plotting a scatterplot
+#' Calculating RC value; Plotting a scatterplot
 #'
 #' @param expr_dt A expression table file (at peptide level)
 #' @param meta_dt A metadata file
@@ -38,7 +38,7 @@ DEPanalysis <- function(expr, group){
   return(result)
 }
 
-qc_cor <- function(expr_dt, meta_dt, output_dir = NULL){
+qc_cor <- function(expr_dt, meta_dt, output_dir = NULL, show_sample_pairs = F){
 
   ref_dt_dir <- file.path(
     system.file(package = "protqc"), "data/reference_dataset.rds")
@@ -77,30 +77,43 @@ qc_cor <- function(expr_dt, meta_dt, output_dir = NULL){
   result_withref <- merge(result_trim,ref_dt,by = 'name')
 
   df_test <- data.frame(result_withref[, c(1,2,3,4,7)])
-  colnames(df_test) <- c('Name', 'Sequence', 'Sample.Pair', 'logFC.x', 'logFC.y')
-  cor_value <- round(cor(df_test$logFC.x, df_test$logFC.y), 3)
+  colnames(df_test) <- c(
+    'Name', 'Sequence', 'Sample.Pair', 'logFC.Test', 'logFC.Reference')
+  cor_value <- round(cor(df_test$logFC.Test, df_test$logFC.Reference), 3)
 
-  p <- ggplot(df_test,aes(x=logFC.x, y=logFC.y))+
-    geom_point(color='steelblue4', size=2.5, alpha=.1)+
-    scale_fill_brewer(palette = 'Blues')+
+  p <- ggplot(df_test,aes(x=logFC.Reference, y=logFC.Test))+
     theme_few()+
-    theme(axis.text = element_text(family="Arial",
-                                   size=16,face="plain",color = "black"),
-          axis.title = element_text(family="Arial",
-                                    size=16,face='plain',color = "black"),
-          legend.text = element_text(family="Arial",
-                                     size=16,color = "black"),
-          plot.subtitle = element_text(family="Arial",face='plain',
-                                       color = "black",hjust=0.5,size=16),
-          plot.title = element_text(family="Arial",face='plain',
-                                    color = "black",hjust=0.5,size=16))+
-    labs(x='Test Dataset',
-         y='Reference Datasets',
-         title=paste("Correlation = ",cor_value,sep=""),
-         subtitle = paste("(Number of peptides = ",nrow(df_test),')',sep=""))+
+    theme(
+      axis.text = element_text(family="Arial",size=16,
+                               face="plain",color = "black"),
+      axis.title = element_text(family="Arial",size=16,
+                                face='plain',color = "black"),
+      legend.text = element_text(family="Arial",size=16,
+                                 color = "black"),
+      plot.subtitle = element_text(family="Arial",size=16,
+                                   face='plain',color = "black",hjust=0.5),
+      plot.title = element_text(family="Arial",size=16,
+                                face='plain',color = "black",hjust=0.5)
+    )+
+    labs(
+      y = 'Test Dataset', x = 'Reference Datasets',
+      title=paste("Correlation = ",cor_value,sep=""),
+      subtitle = paste("(Number of peptides = ",nrow(df_test),')',sep="")
+    )+
     coord_fixed(
-      xlim = c(-max(df_test$logFC.y),max(df_test$logFC.y)),
-      ylim = c(-max(df_test$logFC.y),max(df_test$logFC.y)))
+      xlim = c(-max(df_test$logFC.Reference),max(df_test$logFC.Reference)),
+      ylim = c(-max(df_test$logFC.Reference),max(df_test$logFC.Reference))
+    )
+
+  if(show_sample_pairs == T) {
+    colors.sample.Quartet<- c(
+      'D5/D6' = '#4CC3D9', 'F7/D6' = '#FFC65D', 'M8/D6' = '#F16745')
+    p <- p + geom_point(aes(color = Sample.Pair),size=2.5, alpha=.5) +
+      scale_color_manual(values = colors.sample.Quartet) +
+      scale_fill_manual(values = colors.sample.Quartet)
+  }else {
+    p <- p + geom_point(color = 'steelblue4',size=2.5, alpha=.1)
+  }
 
   if(!is.null(output_dir)){
     output_dir_final1 <- file.path(output_dir,'corr_plot.png')
