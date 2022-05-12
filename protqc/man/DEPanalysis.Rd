@@ -2,7 +2,7 @@
 % Please edit documentation in R/qc_cor.R
 \name{DEPanalysis}
 \alias{DEPanalysis}
-\title{Plotting a scatterplot}
+\title{Calculating RC value; Plotting a scatterplot}
 \usage{
 DEPanalysis(expr, group)
 }
@@ -14,5 +14,5 @@ DEPanalysis(expr, group)
 \item{output_dir}{A directory of the output file(s)}
 }
 \description{
-Plotting a scatterplot
+Calculating RC value; Plotting a scatterplot
 }

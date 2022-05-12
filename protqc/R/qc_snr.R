@@ -21,8 +21,8 @@ qc_snr <- function(expr_dt, meta_dt, output_dir = NULL) {
   pca_prcomp <- prcomp(expr_df_t,retx=T,scale. = T)
   pcs <- as.data.frame(predict(pca_prcomp))
 
-  pcs$Sample_id <- rownames(pcs)
-  pcs$group <- meta_dt$sample
+  pcs$Sample.ID <- rownames(pcs)
+  pcs$Sample <- meta_dt$sample
 
   dt.perc.pcs <- data.table(
     PCX=1:nrow(pcs),
@@ -55,17 +55,17 @@ qc_snr <- function(expr_dt, meta_dt, output_dir = NULL) {
   scale.axis.y <- c( min(pcs$PC2), max(pcs$PC2))
 
   p<-ggplot(pcs, aes(x=PC1, y=PC2))+
-    geom_point(aes(color=group),size=8)+
-    # geom_encircle(aes(color=group), expand=0.02, alpha=.8)+
+    geom_point(aes(color=Sample),size=8)+
+    # geom_encircle(aes(color=Sample), expand=0.02, alpha=.8)+
     theme_few()+
     labs(x = sprintf("PC1(%.2f%%)", summary(pca_prcomp)$importance[2,1]*100),
          y = sprintf("PC2(%.2f%%)", summary(pca_prcomp)$importance[2,2]*100),
          title=paste("SNR = ",signoise_db,sep=""),
          subtitle = paste("(Number of proteins = ",nrow(expr_dt),')',sep=""))+
-    theme(axis.title = element_text(family="Arial",
-                                    size=16,face="plain",color = "black"),
-          axis.text = element_text(family="Arial",
-                                   size=16,face="plain",color = "black"),
+    theme(axis.title = element_text(family="Arial",size=16,
+                                    face="plain",color = "black"),
+          axis.text = element_text(family="Arial",size=16,
+                                   face="plain",color = "black"),
           title = element_text(size = 12,hjust=0.5),
           legend.title = element_text(size=16),
           legend.text = element_text(size=16,color='gray40'),
@@ -78,11 +78,7 @@ qc_snr <- function(expr_dt, meta_dt, output_dir = NULL) {
     guides(colour = guide_legend(override.aes = list(size=2)))+
     guides(shape=guide_legend(override.aes = list(size=3)))
 
-  output <- data.table(
-    sample_id = meta_dt$name,
-    group = meta_dt$sample,
-    pcs[,1:(ncol(pcs)-2)]
-  )
+  output <- data.table(pcs[,c((ncol(pcs)-1):(ncol(pcs)), 1:(ncol(pcs)-2))])
 
   if(!is.null(output_dir)){
     output_dir_final1 <- file.path(output_dir,'pca_plot.png')
