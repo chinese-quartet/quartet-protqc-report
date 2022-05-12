@@ -57,6 +57,14 @@ while getopts ":hd:m:o:" arg; do
 	esac
 done
 
+realpath=$(which realpath)
+if [ "$?" -ne 0 ]; then
+	echo "realpath not found"
+	realpath() {
+		[[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+	}
+fi
+
 if [ -z "$DATA_FILE" ]; then
 	echo "-d argument is not specified."
 	exit 1
@@ -100,8 +108,8 @@ run <- function() {
 	library(ProtQC)
 	print("Running...")
 	ProtQC::plot_pca("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
-  ProtQC::plot_corr("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
-  ProtQC::table_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
+	ProtQC::plot_corr("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
+	ProtQC::table_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
 }
 
 run()
