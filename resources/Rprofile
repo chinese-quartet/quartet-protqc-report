@@ -1,0 +1,11 @@
+renv::activate("<plugin_env_path>/Rprofile");
+renv::restore();
+pkgTest <- function(x) {
+  if (!require(x,character.only = TRUE))
+  {
+    devtools::install_github("chinese-quartet/quartet-protqc-report", subdir="protqc")
+    if(!require(x,character.only = TRUE)) stop("Package not found")
+  }
+}
+
+pkgTest("protqc")

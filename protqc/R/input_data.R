@@ -22,7 +22,22 @@ input_data <- function(exp_path, meta_path) {
       'metadata' = meta
     )
   }else {
-    print("Please check your input format.")
+    # Compatible with version 0.1.x.
+    # Caution: The data format is changed from version 0.2.0.
+    # metadata file: name -> library, sample
+    # data file: rowname -> Feature, xxx
+    expr_colnames <- colnames(expr)
+    colnames(expr) <- c("Feature", expr_colnames[2:length(expr_colnames)])
+    if ("name" %in% colnames(meta)) {
+      library <- meta$name
+    } else {
+      library <- meta$library
+    }
+    metadata <- data.frame(library=library, sample=meta$sample)
+    data_list <- list(
+      'expdata_proteinLevel' = expr,
+      'metadata' = metadata
+    )
   }
 
   return(data_list)
