@@ -4,14 +4,12 @@
 \alias{input_data}
 \title{Input files}
 \usage{
-input_data(pro_path, meta_path, pep_path = NULL)
+input_data(exp_path, meta_path)
 }
 \arguments{
-\item{pro_path}{A file path of the expression table file (at protein level)}
+\item{exp_path}{A file path of the expression table file}
 
 \item{meta_path}{A file path of the metadata file}
-
-\item{pep_path}{A file path of the expression table file (at peptide level)}
 }
 \description{
 Input files

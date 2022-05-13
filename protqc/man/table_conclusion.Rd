@@ -4,16 +4,14 @@
 \alias{table_conclusion}
 \title{Generating a table of conclusion}
 \usage{
-table_conclusion(pro_path, meta_path, output_dir = NULL, pep_path = NULL)
+table_conclusion(exp_path, meta_path, output_dir = NULL)
 }
 \arguments{
-\item{pro_path}{A file path of the expression table file (at protein level)}
+\item{exp_path}{A file path of the expression table file}
 
 \item{meta_path}{A file path of the metadata file}
 
 \item{output_dir}{A directory of the output file(s)}
-
-\item{pep_path}{A file path of the expression table file (at peptide level)}
 }
 \description{
 Generating a table of conclusion
