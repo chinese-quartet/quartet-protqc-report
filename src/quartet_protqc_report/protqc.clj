@@ -16,11 +16,18 @@
   [exp-file meta-file result-dir]
   (let [command ["bash" "-c"
                  (format "protqc.sh -d %s -m %s -o %s" exp-file meta-file result-dir)]
-        path-var (add-env-to-path v/plugin-name)
-        rprofile (fs-lib/join-paths (get-context-path :env v/plugin-name) "Rprofile")]
-    (log/info "PATH variable: " path-var)
+        rprofile (fs-lib/join-paths (get-context-path :env v/plugin-name) "Rprofile")
+        path (add-env-to-path v/plugin-name)
+        ;; When you are in local mode, the context-path doesn't exist.
+        rprofile (if (= rprofile (format "%s/Rprofile" v/plugin-name))
+                   (System/getProperty "R_PROFILE_USER")
+                   rprofile)
+        path (if (= path (format "%s/bin" v/plugin-name))
+               (System/getenv "PATH")
+               path)]
+    (log/info "PATH variable: " path)
     (log/info "Rprofile file is in " rprofile)
-    (shell/with-sh-env {:PATH   path-var
+    (shell/with-sh-env {:PATH   path
                         :R_PROFILE_USER rprofile
                         :LC_ALL "en_US.utf-8"
                         :LANG   "en_US.utf-8"}

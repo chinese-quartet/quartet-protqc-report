@@ -105,11 +105,9 @@ cat <<EOF >"$TEMP"
 run <- function() {
 	# Print traceback message
 	on.exit(traceback())
-	library(ProtQC)
+	library(protqc)
 	print("Running...")
-	ProtQC::plot_pca("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
-	ProtQC::plot_corr("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
-	ProtQC::table_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
+	protqc::table_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
 }
 
 run()

@@ -30,7 +30,7 @@ was generated and the button that launches the welcome tour.
 
 {% if config.intro_text != False %}
 <p class="lead">
-  {{ config.intro_text if config.intro_text is not none else 'A modular tool to aggregate results from ClinicoOmics App into a single report.' }}
+  {{ config.intro_text if config.intro_text is not none else 'A modular tool to aggregate results from the Quartet Data Portal App into a single report.' }}
 </p>
 {% endif %}
 
@@ -65,7 +65,7 @@ was generated and the button that launches the welcome tour.
   {% if config.show_analysis_time %}
     generated on {{ config.creation_date }}
   {% endif %}
-  based on data in ClinicoOmics.
+  based on data in the Quartet Data Portal.
   <!-- {% if config.show_analysis_paths %}
     {% if config.analysis_dir | length == 1 %}
       <code class="mqc_analysis_path">{{ config.analysis_dir[0] }}</code></p>

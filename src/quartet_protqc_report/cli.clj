@@ -74,6 +74,7 @@
 (defn -main
   "Generate ProtQC report for quartet project."
   [& args]
+  (System/setProperty "R_PROFILE_USER" ".env/Rprofile")
   (let [{:keys [options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
