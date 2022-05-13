@@ -66,8 +66,8 @@ qc_history <- function(historical_pro_path, historical_pep_path,
   }
 
   df_wide_norm <- cbind(df_wide$Batch, df_wide_norm,
-    apply(df_wide_norm, 1, function(x) {
-        round(geometric.mean(as.numeric(x)), 3)})
+                        apply(df_wide_norm, 1, function(x) {
+                          round(geometric.mean(as.numeric(x)), 3)})
   )
   colnames(df_wide_norm) <- c(colnames(df_wide), 'Total')
   df_wide_norm <- as.data.frame(df_wide_norm)

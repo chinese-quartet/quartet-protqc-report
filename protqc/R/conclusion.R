@@ -108,7 +108,7 @@ table_conclusion <- function(exp_path, meta_path, output_dir = NULL){
   total_ref <- as.numeric(ref_qc_norm_new$Total_norm)
   total_pos <- floor(rank(-total_ref)[nrow(ref_qc_norm_new)])
   total_rank <- c(paste(total_pos,'/', length(total_ref),sep = ''))
-  total_ref_perc <- quantile(total_ref, c(0, 0.2, 0.5, 0.8, 1))
+  total_ref_perc <- round(quantile(his_ref_norm, c(0, 0.2, 0.5, 0.8, 1)), 3)
   if(between(total_norm,total_ref_perc[1],total_ref_perc[2])) {
     total_class <- 'Bad'
   }else if(between(total_value,total_ref_perc[2],total_ref_perc[3])) {
@@ -128,7 +128,16 @@ table_conclusion <- function(exp_path, meta_path, output_dir = NULL){
     )
   )
 
-  total_cf <- paste((1-round(total_pos/length(total_ref),4))*100,'%',sep = '')
+
+  if(total_norm %in% his_ref_norm) {
+    total_norm_new <- his_ref_norm[his_ref_norm == total_norm]
+    total_pos_new <- floor(rank(-his_ref_norm)[his_ref_norm == total_norm])
+    total_perc <- (length(his_ref_norm)-total_pos_new+1)/length(his_ref_norm)
+    total_cf <- paste((round(total_perc, 4)) * 100, '%', sep = '')
+  }else{
+    total_perc <- (length(total_ref)-total_pos+1)/length(total_ref)
+    total_cf <- paste((round(total_perc, 4)) * 100, '%', sep = '')
+  }
   output_cutoff <- data.table(
     'Cut-off' = c('0%', '20%', '50%', '80%', '100%', total_cf),
     'Percentile' = c(total_ref_perc, total_norm)
