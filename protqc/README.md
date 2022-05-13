@@ -21,16 +21,15 @@ devtools::install_github("chinese-quartet/quartet-protqc-report/protqc")
 ```
 
 ## Usage
-  protqc::table_conclusion(pro_path, meta_path, output_dir, pep_path)
+  protqc::table_conclusion(exp_path, meta_path, output_dir)
   > You can also use other QC functions (start with 'qc') to get performance for your data in each metric.
 
 ## Examples
 ```
-pep_path <- './data/example_data_peptides_for_test.csv'
-pro_path <- './data/example_data_genesymbols_for_test.csv'
-meta_path <- './data/example_meta_for_test.csv'
+exp_path <- './data/example_data_for_test1.csv'
+meta_path <- './data/example_meta_for_test1.csv'
 output_dir <- './data/output'
-protqc::table_conclusion(pro_path, meta_path, output_dir, pep_path)
+protqc::table_conclusion(exp_path, meta_path, output_dir)
 ```
 
 ## Built-in Data
@@ -52,12 +51,10 @@ protqc::table_conclusion(pro_path, meta_path, output_dir, pep_path)
    > These files are all output of the function ***qc_history()***.
 
 ## Examples for the input data
-1. example_data_genesymbols_for_test.csv<br />
-   This file is an example for profiled data at protein levels (for these functions: ***qc_info()***, ***qc_snr()***,***table_conclusion()***), containing proteins (mapped to genes) and quantitative levels in each sample (replicate), and the missing values are replaced by *NA*.
+1. example_data_for_test1.csv & example_data_for_test2.csv<br />
+   This file is an example for profiled data at protein levels and peptide levels (for these functions: ***input_data()***, ***qc_info()***, ***qc_snr()***, ***qc_cor()***, ***table_conclusion()***), containing quantitative levels in each sample (replicate). The first two columns ("Type" and "Feature") are required to explain the feature type, which is either "Gene Symbol", or "Peptide Sequence") and the feature name. The missing values of data at protein levels are replaced by *NA*, those at peptide levels are replaced by *0*.
+   > If you only provide data at protein levels (refer to the file *example_data_for_test2.csv*), then the metric RC will not be calculated.
 
-2. example_data_peptides_for_test.csv<br />
-   This file is an example for profiled data at peptide levels (for these functions: ***qc_info()***,***qc_cor()***,***table_conclusion()***), containing peptide sequence and quantitative levels in each sample (replicate), and the missing values are replaced by *0*.
-
-3. example_data_peptides_for_test.csv<br />
+2. example_meta_for_test1.csv & example_meta_for_test1.csv<br />
    This file is an example for proteomic metadata.
-   > The column names of profiled data (except the first column named 'Gene/Sequence') and the column 'library' of metadata must be in one-to-one correspondence.
+   > The column names of profiled data (except the first two columns) and the column 'library' of metadata must be in one-to-one correspondence.
