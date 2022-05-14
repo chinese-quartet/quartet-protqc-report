@@ -1,3 +1,2 @@
-^protqc\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
