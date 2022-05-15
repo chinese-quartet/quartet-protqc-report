@@ -107,7 +107,7 @@ run <- function() {
 	on.exit(traceback())
 	library(protqc)
 	print("Running...")
-	protqc::table_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR")
+	protqc::qc_conclusion("$DATA_FILE", "$META_FILE", "$RESULT_DIR", plot=FALSE)
 }
 
 run()

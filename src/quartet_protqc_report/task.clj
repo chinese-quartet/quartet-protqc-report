@@ -95,11 +95,12 @@
                                     (fn [result] (= (:status result) "Success")))
         status (:status (last results))
         msg (apply str (map :msg results))
-        process (if (= status "Success") 100 -1)]
-    (log/info (format "Running batch command: %s" (pr-str results)))
-    (update-log-process! log-path {:status status
-                                   :msg msg}
-                         task-id process)))
+        process (if (= status "Success") 100 -1)
+        output {:status status
+                :msg msg}]
+    (update-log-process! log-path output
+                         task-id process)
+    output))
 
 (def events-init
   "Automatically called during startup; start event listener for quartet_protqc_report events."
