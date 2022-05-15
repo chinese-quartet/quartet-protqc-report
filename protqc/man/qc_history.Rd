@@ -4,16 +4,7 @@
 \alias{qc_history}
 \title{Quality assessment of historical data sets}
 \usage{
-qc_history(historical_pro_path, historical_pep_path, historical_meta_path)
-}
-\arguments{
-\item{historical_pro_path}{A file path of data (at protein level)}
-
-\item{historical_pep_path}{A file path of data (at peptide level)}
-
-\item{meta_dt_path}{A file path of the metadata file}
-
-\item{output_dir}{A directory of the output file(s)}
+qc_history()
 }
 \description{
 Quality assessment of historical data sets

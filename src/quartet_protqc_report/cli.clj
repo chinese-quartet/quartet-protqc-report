@@ -4,6 +4,7 @@
             [local-fs.core :refer [file? directory?]]
             [clojure.string :as clj-str]
             [clojure.tools.cli :refer [parse-opts]]
+            [clojure.tools.logging :as log]
             [quartet-protqc-report.version :refer [version]]))
 
 (def cli-options
@@ -74,16 +75,20 @@
 (defn -main
   "Generate ProtQC report for quartet project."
   [& args]
+  (System/setProperty "R_PROFILE_USER" ".env/Rprofile")
   (let [{:keys [options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
-      (make-report! {:data-file (:data options)
-                     :metadata-file (:metadata options)
-                     :dest-dir (:output options)
-                     :metadata {:name (:name options)
-                                :description (:description options)
-                                :plugin-name "quartet-protqc-report"
-                                :plutin-type "ReportPlugin"
-                                :plugin-version version}
-                     :task-id nil}))
+      (let [result (make-report! {:data-file (:data options)
+                                  :metadata-file (:metadata options)
+                                  :dest-dir (:output options)
+                                  :metadata {:name (:name options)
+                                             :description (:description options)
+                                             :plugin-name "quartet-protqc-report"
+                                             :plutin-type "ReportPlugin"
+                                             :plugin-version version}
+                                  :task-id nil})]
+        (if (= (:status result) "Success")
+          (log/info (:msg result))
+          (log/error (:msg result)))))
     (shutdown-agents)))

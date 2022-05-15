@@ -2,13 +2,26 @@ Package: protqc
 Title: protqc
 Version: 1.0.0
 Authors@R: 
-    person(given = "Qiaochu",
-           family = "Chen",
-           role = c("aut", "cre"),
-           email = "chenqiaochu@sjtu.edu.cn")
-Description: For visualization of QC metrics for Quartet Project.
+    person("Qiaochu", "Chen", role = c("aut", "cre"),
+    email = "chenqiaochu@sjtu.edu.cn")
+Depends: R (>= 3.5.0)
+Imports: 
+    stats,
+    rlang,
+    stringi,
+    utils,
+    dplyr,
+    data.table,
+    ggplot2,
+    ggthemes,
+    edgeR,
+    limma,
+    reshape2,
+    psych,
+    tibble
+Description: Quality assessment of proteomic data for Quartet Project.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
-Imports: dplyr,data.table,ggplot2,ggthemes,edgeR,limma,reshape2,psych
+RoxygenNote: 7.2.0.9000
+LazyData: true

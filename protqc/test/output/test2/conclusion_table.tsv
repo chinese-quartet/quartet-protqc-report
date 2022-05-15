@@ -1,0 +1,8 @@
+"Quality Metrics"	"Value"	"Historical Value (mean ± SD)"	"Rank"	"Performance"
+"Number of features"	3316	"4533.938 ± 838.623"	"29/33"	"Bad"
+"Missing percentage (%)"	33.743	"24.382 ± 9.879"	"31/33"	"Bad"
+"Absolute Correlation"	0.931	"0.92 ± 0.033"	"10/33"	"Good"
+"Coefficient of variantion (CV, %)"	25.447	"22.52 ± 8.324"	"19/33"	"Fair"
+"Signal-to-Noise Ratio (SNR)"	24.53	"15.766 ± 8.094"	"5/33"	"Great"
+"Relative Correlation with Reference Datasets (RC)"	NA	"0.897 ± 0.082"	NA	NA
+"Total Score"	4.189	"4.919 ± 2.185"	"16/33"	"Good"

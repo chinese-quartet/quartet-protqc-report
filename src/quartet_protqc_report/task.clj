@@ -51,9 +51,7 @@
                                :plugin-name    v/plugin-name
                                :plugin-type    "ReportPlugin"
                                :plugin-version (:plugin-version plugin-context)
-                               :response       response})
-        result-dir (fs-lib/join-paths workdir "results")]
-    (fs-lib/create-directories! result-dir)
+                               :response       response})]
     (spit log-path (json/write-str {:status "Running"
                                     :msg ""}))
     (update-process! task-id 0)
@@ -71,6 +69,7 @@
 
 (defn make-report!
   [{:keys [data-file metadata-file dest-dir metadata task-id]}]
+  (fs-lib/create-directories! (fs-lib/join-paths dest-dir "results"))
   (let [log-path (fs-lib/join-paths dest-dir "log")
         result-dir (fs-lib/join-paths dest-dir "results")
         parameters-file (fs-lib/join-paths result-dir "general_information.json")
@@ -96,11 +95,12 @@
                                     (fn [result] (= (:status result) "Success")))
         status (:status (last results))
         msg (apply str (map :msg results))
-        process (if (= status "Success") 100 -1)]
-    (log/info (format "Running batch command: %s" (pr-str results)))
-    (update-log-process! log-path {:status status
-                                   :msg msg}
-                         task-id process)))
+        process (if (= status "Success") 100 -1)
+        output {:status status
+                :msg msg}]
+    (update-log-process! log-path output
+                         task-id process)
+    output))
 
 (def events-init
   "Automatically called during startup; start event listener for quartet_protqc_report events."
