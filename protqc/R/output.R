@@ -2,21 +2,25 @@
 #' @param exp_path A file path of the expression table file
 #' @param meta_path A file path of the metadata file
 #' @param output_dir A directory of the output file(s)
+#' @param plot if True, a plot will be output.
+#' @import stats
+#' @import utils
 #' @importFrom data.table data.table
 #' @importFrom psych geometric.mean
 #' @export
 
-qc_conclusion <- function(exp_path, meta_path, output_dir = NULL) {
+qc_conclusion <- function(exp_path, meta_path, output_dir = NULL, plot=FALSE) {
   # Load historical QC results -------------------------
-  ref_qc_dir <- file.path(system.file(package = "protqc"),
-                          "data/historical_qc.rds")
-  ref_qc_norm_dir <- file.path(system.file(package = "protqc"),
-                               "data/historical_qc_norm.rds")
-  ref_qc_stat_dir <- file.path(system.file(package = "protqc"),
-                               "data/historical_qc_stat.rds")
-  ref_qc <- readRDS(ref_qc_dir)
-  ref_qc_norm <- readRDS(ref_qc_norm_dir)
-  ref_qc_stat <- readRDS(ref_qc_stat_dir)
+  # load(system.file("data/historical_qc.rda", package = "protqc"))
+  # load(system.file("data/historical_qc_norm.rda", package = "protqc"))
+  # load(system.file("data/historical_qc_stat.rda", package = "protqc"))
+  data("historical_qc", package = "protqc")
+  data("historical_qc_norm", package = "protqc")
+  data("historical_qc_stat", package = "protqc")
+
+  ref_qc <- historical_qc
+  ref_qc_norm <- historical_qc_norm
+  ref_qc_stat <- historical_qc_stat
 
   # Load the input data --------------------------------
   data_list <- input_data(exp_path, meta_path)

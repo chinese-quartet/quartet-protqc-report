@@ -9,9 +9,7 @@ qc_rank(x, x_hist)
 \arguments{
 \item{x}{The value of the metric to be labeled}
 
-\item{x_ref}{The reference values of the metric}
-
-\item{cutoff}{The cut-offs of the labeling}
+\item{x_hist}{The reference values of the metric}
 }
 \description{
 Rank in historical performances

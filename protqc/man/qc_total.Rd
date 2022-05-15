@@ -9,6 +9,12 @@ qc_total(allmetrics_dt, ref_qc, ref_qc_norm, ref_qc_stat, normalized = T)
 \arguments{
 \item{allmetrics_dt}{the output table from qc_allmetrics}
 
+\item{ref_qc}{historical data set}
+
+\item{ref_qc_norm}{historical data set}
+
+\item{ref_qc_stat}{historical data set}
+
 \item{normalized}{if True, the qc values will be linearly normalized to 1~10.}
 }
 \description{

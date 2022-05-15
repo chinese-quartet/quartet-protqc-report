@@ -4,7 +4,13 @@
 \alias{qc_cor}
 \title{Calculating RC value; Plotting a scatterplot}
 \usage{
-qc_cor(expr_dt, meta_dt, output_dir = NULL, show_sample_pairs = F)
+qc_cor(
+  expr_dt,
+  meta_dt,
+  output_dir = NULL,
+  plot = FALSE,
+  show_sample_pairs = FALSE
+)
 }
 \arguments{
 \item{expr_dt}{A expression table file (at peptide level)}
@@ -12,6 +18,10 @@ qc_cor(expr_dt, meta_dt, output_dir = NULL, show_sample_pairs = F)
 \item{meta_dt}{A metadata file}
 
 \item{output_dir}{A directory of the output file(s)}
+
+\item{plot}{if True, a plot will be output.}
+
+\item{show_sample_pairs}{if True, samples in plot will be labeled.}
 }
 \description{
 Calculating RC value; Plotting a scatterplot

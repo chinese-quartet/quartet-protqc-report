@@ -1,6 +1,8 @@
 #' Input files
 #' @param exp_path A file path of the expression table file
 #' @param meta_path A file path of the metadata file
+#' @import stats
+#' @import utils
 #' @export
 
 input_data <- function(exp_path, meta_path) {

@@ -4,7 +4,7 @@
 \alias{qc_conclusion}
 \title{Generating a table of conclusion}
 \usage{
-qc_conclusion(exp_path, meta_path, output_dir = NULL)
+qc_conclusion(exp_path, meta_path, output_dir = NULL, plot = FALSE)
 }
 \arguments{
 \item{exp_path}{A file path of the expression table file}
@@ -12,6 +12,8 @@ qc_conclusion(exp_path, meta_path, output_dir = NULL)
 \item{meta_path}{A file path of the metadata file}
 
 \item{output_dir}{A directory of the output file(s)}
+
+\item{plot}{if True, a plot will be output.}
 }
 \description{
 Generating a table of conclusion
