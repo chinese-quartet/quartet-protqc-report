@@ -267,7 +267,7 @@ qc_cor <- function(expr_dt, meta_dt,
   expr_matrix[is.na(expr_matrix)] <- 0
 
   # Check the grouping info ----------------------------------------
-  samples <- unique(meta_dt$sample)
+  samples <- as.character(unique(meta_dt$sample))
   if (length(samples) > 1) {
     check_d6 <- "D6" %in% samples
     if (!check_d6) {
