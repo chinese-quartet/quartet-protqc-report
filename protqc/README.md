@@ -17,7 +17,7 @@
 
 ## Installation
 ```
-devtools::install_github("chinese-quartet/quartet-protqc-report/protqc")
+devtools::install_github("QiaochuChen/protqc")
 ```
 
 ## Usage
@@ -40,7 +40,7 @@ protqc::qc_conclusion(exp_path, meta_path, output_dir, plot=FALSE)
 2. ./data/historical_data_genesymbols.rda<br />
    This file contains historical datasets (at protein levels, mapped to genes), which are used for calculating historical performances.
 
-3. ./data/historical_data_peptides.rds<br />
+3. ./data/historical_data_peptides.rda<br />
    This file contains historical datasets (at peptide levels, unmapped sequences), which are used for calculating historical performances in quantitative accuracy at relative levels.
 
 4. ./data/historical_meta.rda<br />
@@ -54,9 +54,9 @@ protqc::qc_conclusion(exp_path, meta_path, output_dir, plot=FALSE)
 
 ## Examples for the input data
 1. ./test/input/example_data_for_test1.csv & ./test/input/example_data_for_test2.csv<br />
-   This file is an example for profiled data at protein levels and peptide levels (for these functions: ***input_data()***, ***qc_info()***, ***qc_snr()***, ***qc_cor()***, ***table_conclusion()***), containing quantitative levels in each sample (replicate). The first two columns ("Type" and "Feature") are required to explain the feature type, which is either "Gene Symbol", or "Peptide Sequence") and the feature name. The missing values of data are replaced by *NA* or *0*.
+   This file is an example for profiled data at protein levels and peptide levels (for these functions: ***input_data()***, ***qc_info()***, ***qc_snr()***, ***qc_cor()***, ***qc_conclusion()***), containing quantitative levels in each sample (replicate). The first two columns ("Type" and "Feature") are required to explain the feature type, which is either "Gene Symbol", or "Peptide Sequence") and the feature name. The missing values of data are replaced by *NA* or *0*.
    > If you only provide data at protein levels (refer to the file *example_data_for_test2.csv*), then the metric RC will not be calculated.
 
-2. ./test/input/example_meta_for_test1.csv & ./test/input/example_meta_for_test1.csv<br />
+2. ./test/input/example_meta_for_test1.csv & ./test/input/example_meta_for_test2.csv<br />
    This file is an example for proteomic metadata. The columns "library" and "sample" are required.
    > The column names of profiled data (except the first two columns) and the column 'library' of metadata must be in one-to-one correspondence.
