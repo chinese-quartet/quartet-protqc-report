@@ -50,7 +50,8 @@ class MultiqcModule(BaseMultiqcModule):
     table_summary_dic = []
     for f in self.find_log_files('conclusion/conclusion_table'):
       f_p = '%s/%s' % (f['root'], f['fn'])
-      content = pd.read_csv(f_p, sep = "\t")
+      content = pd.read_csv(f_p, sep = "\t").replace(r'\\u00b1', '±', regex=True)
+      content.columns = ['Quality Metrics', 'Value', 'Historical Value (mean ± SD)', 'Rank', 'Performance']
       table_summary_dic = content.set_index('Quality Metrics').T.to_dict()
     if len(table_summary_dic) != 0:
       self.plot_summary_table('conclusion_summary', table_summary_dic, cutoff_table)

@@ -44,16 +44,16 @@ class MultiqcModule(BaseMultiqcModule):
   ### Function: Plot the scatter plot
   def plot_pca(self, id, fig_data, title=None, section_name=None, description=None, helptext=None):
     
-    fig_data = fig_data[["Sample.ID", "Sample", "PC1", "PC2"]]
+    fig_data = fig_data[["sample_id", "sample", "PC1", "PC2"]]
     fig_data['PC1'] = fig_data['PC1'].map(lambda x: ('%.3f') % x)
     fig_data['PC2'] = fig_data['PC2'].map(lambda x: ('%.3f') % x)
 
     fig = px.scatter(fig_data, 
           x = 'PC1', y = 'PC2',
           title = title, 
-          color = 'Sample',
+          color = 'sample',
           color_discrete_map={"D5": "#00ACC6", "D6": "#5BAF89", "F7": "#FFB132", "M8": "#E8633B"},
-          hover_data={'PC1': ':.3f', 'PC2': ':.3f', 'Sample.ID': True},
+          hover_data={'PC1': ':.3f', 'PC2': ':.3f', 'sample_id': True},
           render_mode = 'svg')
     
     fig.update_traces(marker=dict(size=15, opacity=1, line_color='white', line_width=0.5))
