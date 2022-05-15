@@ -256,7 +256,8 @@ qc_cor <- function(expr_dt, meta_dt,
                    output_dir=NULL, plot=FALSE, show_sample_pairs=FALSE) {
 
   # Load data ------------------------------------------------------
-  load(system.file("data/reference_dataset.rda", package = "protqc"))
+  # load(system.file("data/reference_dataset.rda", package = "protqc"))
+  data("reference_dataset", package = "protqc")
   ref_dt <- reference_dataset
   expr_ncol <- ncol(expr_dt)
   expr_df <- data.frame(expr_dt[, 2:expr_ncol], row.names = expr_dt[, 1])

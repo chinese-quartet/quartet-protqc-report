@@ -11,9 +11,13 @@
 
 qc_conclusion <- function(exp_path, meta_path, output_dir = NULL, plot=FALSE) {
   # Load historical QC results -------------------------
-  load(system.file("data/historical_qc.rda", package = "protqc"))
-  load(system.file("data/historical_qc_norm.rda", package = "protqc"))
-  load(system.file("data/historical_qc_stat.rda", package = "protqc"))
+  # load(system.file("data/historical_qc.rda", package = "protqc"))
+  # load(system.file("data/historical_qc_norm.rda", package = "protqc"))
+  # load(system.file("data/historical_qc_stat.rda", package = "protqc"))
+  data("historical_qc", package = "protqc")
+  data("historical_qc_norm", package = "protqc")
+  data("historical_qc_stat", package = "protqc")
+
   ref_qc <- historical_qc
   ref_qc_norm <- historical_qc_norm
   ref_qc_stat <- historical_qc_stat

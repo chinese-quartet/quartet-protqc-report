@@ -17,7 +17,8 @@ Imports:
     edgeR,
     limma,
     reshape2,
-    psych
+    psych,
+    tibble
 Description: Quality assessment of proteomic data for Quartet Project.
 License: MIT + file LICENSE
 Encoding: UTF-8

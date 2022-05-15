@@ -11,9 +11,9 @@
 
 qc_history <- function() {
   # Load data ------------------------------------------
-  load(system.file("data/historical_meta.rda", package = "protqc"))
-  load(system.file("data/historical_meta.rda", package = "protqc"))
-  load(system.file("data/historical_meta.rda", package = "protqc"))
+  data("historical_meta", package = "protqc")
+  data("historical_data_peptides", package = "protqc")
+  data("historical_data_genesymbols", package = "protqc")
 
   # Global variables -----------------------------------
   all_pro <- historical_data_genesymbols
