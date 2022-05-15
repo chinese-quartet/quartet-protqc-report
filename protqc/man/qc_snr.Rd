@@ -4,7 +4,7 @@
 \alias{qc_snr}
 \title{Calculating SNR value; Plotting a PCA panel}
 \usage{
-qc_snr(expr_dt, meta_dt, output_dir = NULL)
+qc_snr(expr_dt, meta_dt, output_dir = NULL, plot = TRUE)
 }
 \arguments{
 \item{expr_dt}{A expression profile (at protein level)}
@@ -12,6 +12,8 @@ qc_snr(expr_dt, meta_dt, output_dir = NULL)
 \item{meta_dt}{A metadata file}
 
 \item{output_dir}{A directory of the output file(s)}
+
+\item{plot}{if True, a plot will be output.}
 }
 \description{
 Calculating SNR value; Plotting a PCA panel

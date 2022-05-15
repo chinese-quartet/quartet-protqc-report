@@ -1,7 +1,7 @@
 #' Statistics for basic information
 #' @param expr_dt A expression profile
 #' @param meta_dt A metadata file
-#' @param output_dir A directory of the output file(s)
+#' @import stats
 #' @importFrom psych corr.test
 #' @importFrom reshape2 melt
 #' @export
@@ -72,6 +72,10 @@ qc_info <- function(expr_dt, meta_dt) {
 #' @param expr_dt A expression profile (at protein level)
 #' @param meta_dt A metadata file
 #' @param output_dir A directory of the output file(s)
+#' @param plot if True, a plot will be output.
+#' @import stats
+#' @import utils
+#' @importFrom rlang :=
 #' @importFrom data.table data.table
 #' @importFrom data.table setkey
 #' @importFrom ggplot2 ggplot
@@ -88,7 +92,7 @@ qc_info <- function(expr_dt, meta_dt) {
 #' @importFrom ggthemes theme_few
 #' @export
 
-qc_snr <- function(expr_dt, meta_dt, output_dir=NULL) {
+qc_snr <- function(expr_dt, meta_dt, output_dir=NULL, plot=TRUE) {
 
   # Load data --------------------------------------
   expr_ncol <- ncol(expr_dt)
@@ -120,79 +124,79 @@ qc_snr <- function(expr_dt, meta_dt, output_dir=NULL) {
   dt_dist$group_a <- ids_group_mat[match(dt_dist$id_a, ids_group_mat$id)]$group
   dt_dist$group_b <- ids_group_mat[match(dt_dist$id_b, ids_group_mat$id)]$group
 
-  dt_dist[, type:= ifelse(id_a == id_b,
-                          "Same",
-                          ifelse(group_a == group_b, "Intra", "Inter"))]
+  dt_dist[, type := ifelse(id_a == id_b, "Same",
+                           ifelse(group_a == group_b, "Intra", "Inter"))]
 
-  dt_dist[, dist:= (dt_perc_pcs[1]$Percent * (pcs[id_a, 1] - pcs[id_b, 1])^2 +
-                    dt_perc_pcs[2]$Percent * (pcs[id_a, 2] - pcs[id_b, 2])^2)]
+  dt_dist[, dist := (dt_perc_pcs[1]$Percent * (pcs[id_a, 1] - pcs[id_b, 1])^2 +
+                      dt_perc_pcs[2]$Percent * (pcs[id_a, 2] - pcs[id_b, 2])^2)]
 
-  dt_dist_stats <- dt_dist[, .(avg_dist = mean(dist)), by = .(type)]
+  dt_dist_stats <- dt_dist[, list(avg_dist = mean(dist)), by = list(type)]
   setkey(dt_dist_stats, type)
   signoise <- dt_dist_stats["Inter"]$avg_dist / dt_dist_stats["Intra"]$avg_dist
   signoise_db <- round(10 * log10(signoise), 3)
 
   # Plot -------------------------------------------
-  colors_custom <- c("D5" = "#4CC3D9",
+  if (plot) {
+    colors_custom <- c("D5" = "#4CC3D9",
                      "D6" = "#7BC8A4",
                      "F7" = "#FFC65D",
                      "M8" = "#F16745")
-  text_custom_theme <- element_text(family = "Arial",
-                                    size = 16,
-                                    face = "plain",
-                                    color = "black",
-                                    hjust = 0.5)
+    text_custom_theme <- element_text(size = 16,
+                                      face = "plain",
+                                      color = "black",
+                                      hjust = 0.5)
+    scale_axis_x <- c(min(pcs$PC1), max(pcs$PC1))
+    scale_axis_y <- c(min(pcs$PC2), max(pcs$PC2))
 
-  scale_axis_x <- c(min(pcs$PC1), max(pcs$PC1))
-  scale_axis_y <- c(min(pcs$PC2), max(pcs$PC2))
+    pc1_prop <- summary(pca_prcomp)$importance[2, 1]
+    pc2_prop <- summary(pca_prcomp)$importance[2, 2]
+    text_axis_x <- sprintf("PC1(%.2f%%)", pc1_prop * 100)
+    text_axis_y <- sprintf("PC2(%.2f%%)", pc1_prop * 100)
+    limit_x <- c(1.1 * scale_axis_x[1], 1.1 * scale_axis_x[2])
+    limit_y <- c(1.1 * scale_axis_y[1], 1.1 * scale_axis_y[2])
 
-  pc1_prop <- summary(pca_prcomp)$importance[2, 1]
-  pc2_prop <- summary(pca_prcomp)$importance[2, 2]
-  text_axis_x <- sprintf("PC1(%.2f%%)", pc1_prop * 100)
-  text_axis_y <- sprintf("PC2(%.2f%%)", pc1_prop * 100)
-  limit_x <- c(1.1 * scale_axis_x[1], 1.1 * scale_axis_x[2])
-  limit_y <- c(1.1 * scale_axis_y[1], 1.1 * scale_axis_y[2])
-
-  p_title <- paste("SNR = ", signoise_db, sep = "")
-  p_subtitle <- paste("(Number of proteins = ", nrow(expr_dt), ")", sep = "")
-
-
-  p <- ggplot(pcs, aes(x = PC1, y = PC2)) +
-    geom_point(aes(color = sample), size = 8) +
-    theme_few() +
-    theme(plot.title = text_custom_theme,
-          plot.subtitle = text_custom_theme,
-          axis.title = text_custom_theme,
-          axis.text = text_custom_theme,
-          legend.title = text_custom_theme,
-          legend.text = element_text(size = 16, color = "gray40")) +
-    labs(x = text_axis_x,
-         y = text_axis_y,
-         title = p_title,
-         subtitle = p_subtitle) +
-    scale_color_manual(values = colors_custom) +
-    scale_x_continuous(limits = limit_x) +
-    scale_y_continuous(limits = limit_y) +
-    guides(colour = guide_legend(override.aes = list(size = 2))) +
-    guides(shape = guide_legend(override.aes = list(size = 3)))
+    p_title <- paste("SNR = ", signoise_db, sep = "")
+    p_subtitle <- paste("(Number of proteins = ", nrow(expr_dt), ")", sep = "")
+    p <- ggplot(pcs, aes(x = .data$PC1, y = .data$PC2)) +
+      geom_point(aes(color = sample), size = 8) +
+      theme_few() +
+      theme(plot.title = text_custom_theme,
+            plot.subtitle = text_custom_theme,
+            axis.title = text_custom_theme,
+            axis.text = text_custom_theme,
+            legend.title = text_custom_theme,
+            legend.text = element_text(size = 16, color = "gray40")) +
+      labs(x = text_axis_x,
+          y = text_axis_y,
+          title = p_title,
+          subtitle = p_subtitle) +
+      scale_color_manual(values = colors_custom) +
+      scale_x_continuous(limits = limit_x) +
+      scale_y_continuous(limits = limit_y) +
+      guides(colour = guide_legend(override.aes = list(size = 2))) +
+      guides(shape = guide_legend(override.aes = list(size = 3)))
+  }
 
   pc_num <- ncol(pcs)
   output <- data.table(pcs[, c((pc_num - 1):pc_num, 1:(pc_num - 2))])
 
   # Save & Output ----------------------------------
   if (!is.null(output_dir)) {
-    output_dir_final1 <- file.path(output_dir, "pca_plot.png")
-    ggsave(output_dir_final1, p, width = 6, height = 5.5)
+    if (plot) {
+      output_dir_final1 <- file.path(output_dir, "pca_plot.png")
+      ggsave(output_dir_final1, p, width = 6, height = 5.5)
+    }
     output_dir_final2 <- file.path(output_dir, "pca_table.tsv")
     write.table(output, output_dir_final2, sep = "\t", row.names = F)
   }
 
-  return(list(plot = p, table = output, SNR = signoise_db))
+  return(list(table = output, SNR = signoise_db))
 }
 
 #' Analysis: differential expression
 #' @param expr A expression table file (at peptide level)
 #' @param group The grouping info
+#' @import stats
 #' @importFrom edgeR DGEList
 #' @importFrom edgeR filterByExpr
 #' @importFrom edgeR calcNormFactors
@@ -230,6 +234,11 @@ dep_analysis <- function(expr, group) {
 #' @param expr_dt A expression table file (at peptide level)
 #' @param meta_dt A metadata file
 #' @param output_dir A directory of the output file(s)
+#' @param plot if True, a plot will be output.
+#' @param show_sample_pairs if True, samples in plot will be labeled.
+#' @import stats
+#' @import utils
+#' @importFrom rlang .data
 #' @importFrom ggplot2 element_text
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -243,12 +252,12 @@ dep_analysis <- function(expr, group) {
 #' @importFrom ggplot2 ggsave
 #' @export
 
-qc_cor <- function(expr_dt, meta_dt, output_dir=NULL, show_sample_pairs=F) {
+qc_cor <- function(expr_dt, meta_dt,
+                   output_dir=NULL, plot=FALSE, show_sample_pairs=FALSE) {
 
   # Load data ------------------------------------------------------
-  ref_dt_dir <- file.path(
-    system.file(package = "protqc"), "data/reference_dataset.rds")
-  ref_dt <- readRDS(ref_dt_dir)
+  load(system.file("data/reference_dataset.rda", package = "protqc"))
+  ref_dt <- reference_dataset
   expr_ncol <- ncol(expr_dt)
   expr_df <- data.frame(expr_dt[, 2:expr_ncol], row.names = expr_dt[, 1])
   expr_matrix <- as.matrix(expr_df)
@@ -275,7 +284,7 @@ qc_cor <- function(expr_dt, meta_dt, output_dir=NULL, show_sample_pairs=F) {
   for (j in 2:(pair_num + 1)) {
     sample_pair <- paste(samples[j], "D6", sep = "/")
     ref_tmp <- ref_dt[ref_dt$Sample.Pair %in% sample_pair, ]
-    
+
     col1 <- grep(samples[j], colnames(expr_matrix))
     col2 <- grep("D6", colnames(expr_matrix))
 
@@ -308,58 +317,62 @@ qc_cor <- function(expr_dt, meta_dt, output_dir=NULL, show_sample_pairs=F) {
   cor_value <- round(cor_value, 3)
 
   # Plot ----------------------------------------------------------
-  text_custom_theme <- element_text(family = "Arial",
-                                    size = 16,
-                                    face = "plain",
-                                    color = "black",
-                                    hjust = 0.5)
+  if (plot) {
+    text_custom_theme <- element_text(size = 16,
+                                      face = "plain",
+                                      color = "black",
+                                      hjust = 0.5)
 
-  scale_axis_r <- c(min(df_test$logFC.Reference),
-                    max(df_test$logFC.Reference))
-  scale_axis_t <- c(min(df_test$logFC.Test),
-                    max(df_test$logFC.Test))
-  limit <- max(abs(c(scale_axis_r, scale_axis_t)))
-  limit_axis <- c(- limit, limit)
+    scale_axis_r <- c(min(df_test$logFC.Reference),
+                      max(df_test$logFC.Reference))
+    scale_axis_t <- c(min(df_test$logFC.Test),
+                      max(df_test$logFC.Test))
+    limit <- max(abs(c(scale_axis_r, scale_axis_t)))
+    limit_axis <- c(- limit, limit)
 
-  plot_title <- paste("RC = ", cor_value, sep = "")
-  plot_subtitle <- paste("(Number of peptides = ", nrow(df_test), ")", sep = "")
+    plot_title <- paste("RC = ", cor_value, sep = "")
+    plot_subtitle <- paste("(Number of peptides = ", nrow(df_test), ")", sep = "")
 
-  p <- ggplot(df_test, aes(x = logFC.Reference, y = logFC.Test)) +
-    theme_few() +
-    theme(plot.title = text_custom_theme,
-          plot.subtitle = text_custom_theme,
-          axis.title = text_custom_theme,
-          axis.text = text_custom_theme,
-          legend.title = text_custom_theme,
-          legend.text = element_text(size = 16, color = "gray40")) +
-    labs(y = "log2FC (Test Dataset)",
-         x = "log2FC (Reference Datasets)",
-         title = plot_title,
-         subtitle = plot_subtitle) +
-    coord_fixed(xlim = limit_axis, ylim = limit_axis)
+    p <- ggplot(df_test, aes(x = .data$logFC.Reference, y = .data$logFC.Test)) +
+      theme_few() +
+      theme(plot.title = text_custom_theme,
+            plot.subtitle = text_custom_theme,
+            axis.title = text_custom_theme,
+            axis.text = text_custom_theme,
+            legend.title = text_custom_theme,
+            legend.text = element_text(size = 16, color = "gray40")) +
+      labs(y = "log2FC (Test Dataset)",
+          x = "log2FC (Reference Datasets)",
+          title = plot_title,
+          subtitle = plot_subtitle) +
+      coord_fixed(xlim = limit_axis, ylim = limit_axis)
 
-  if (show_sample_pairs == T) {
-    colors_custom <- c("D5/D6" = "#4CC3D9",
-                       "F7/D6" = "#FFC65D",
-                       "M8/D6" = "#F16745")
-    p <- p + geom_point(aes(color = Sample.Pair), size = 2.5, alpha = .5) +
-      scale_color_manual(values = colors_custom)
-  }else {
-    p <- p + geom_point(color = "steelblue4", size = 2.5, alpha = .1)
+    if (show_sample_pairs == T) {
+      colors_custom <- c("D5/D6" = "#4CC3D9",
+                        "F7/D6" = "#FFC65D",
+                        "M8/D6" = "#F16745")
+      p <- p +
+        geom_point(aes(color = .data$Sample.Pair), size = 2.5, alpha = .5) +
+        scale_color_manual(values = colors_custom)
+    }else {
+      p <- p + geom_point(color = "steelblue4", size = 2.5, alpha = .1)
+    }
+
   }
 
   # Save & Output -------------------------------------------------
   if (!is.null(output_dir)) {
-    output_dir_final1 <- file.path(output_dir, "corr_plot.png")
+    if (plot) {
+      output_dir_final1 <- file.path(output_dir, "corr_plot.png")
+      ggsave(output_dir_final1, p, height = 5.5, width = 5.5)
+    }
     output_dir_final2 <- file.path(output_dir, "deps_table.tsv")
     output_dir_final3 <- file.path(output_dir, "corr_table.tsv")
-    ggsave(output_dir_final1, p, height = 5.5, width = 5.5)
     write.table(result_final, output_dir_final2, sep = "\t", row.names = F)
     write.table(df_test, output_dir_final3, sep = "\t", row.names = F)
   }
 
-  output_list <- list(plot = p,
-                      DEPs = result_final,
+  output_list <- list(DEPs = result_final,
                       logfc = df_test,
                       COR = cor_value)
 

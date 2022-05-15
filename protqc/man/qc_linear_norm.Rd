@@ -12,6 +12,8 @@ qc_linear_norm(x, x_min, x_max, decreasing = F)
 \item{x_min}{Queried minimum in historical values}
 
 \item{x_max}{Queried maximum in historical values}
+
+\item{decreasing}{if True, a decreased linear normalization will be applied.}
 }
 \description{
 Linear normalization: 1~10

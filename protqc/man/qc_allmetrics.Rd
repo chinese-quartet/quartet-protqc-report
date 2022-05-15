@@ -4,7 +4,7 @@
 \alias{qc_allmetrics}
 \title{Calculating all QC metrics}
 \usage{
-qc_allmetrics(pro_dt, meta_dt, pep_dt = NULL, output_dir = NULL)
+qc_allmetrics(pro_dt, meta_dt, pep_dt = NULL, output_dir = NULL, plot = FALSE)
 }
 \arguments{
 \item{pro_dt}{A expression table file (at protein level)}
@@ -14,6 +14,8 @@ qc_allmetrics(pro_dt, meta_dt, pep_dt = NULL, output_dir = NULL)
 \item{pep_dt}{A expression table file (at peptide level)}
 
 \item{output_dir}{A directory for results}
+
+\item{plot}{if True, a plot will be output.}
 }
 \description{
 Calculating all QC metrics

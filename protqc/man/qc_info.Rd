@@ -10,8 +10,6 @@ qc_info(expr_dt, meta_dt)
 \item{expr_dt}{A expression profile}
 
 \item{meta_dt}{A metadata file}
-
-\item{output_dir}{A directory of the output file(s)}
 }
 \description{
 Statistics for basic information

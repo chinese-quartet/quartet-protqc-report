@@ -2,6 +2,7 @@
 #' @param x A value to be normalized
 #' @param x_max Queried maximum in historical values
 #' @param x_min Queried minimum in historical values
+#' @param decreasing if True, a decreased linear normalization will be applied.
 #' @export
 qc_linear_norm <- function(x, x_min, x_max, decreasing=F) {
   if (length(x) == 1) {
@@ -25,6 +26,7 @@ qc_linear_norm <- function(x, x_min, x_max, decreasing=F) {
 #' @param x The value of the metric to be labeled
 #' @param x_ref The reference values of the metric
 #' @param cutoff The cut-offs of the labeling
+#' @import stats
 #' @importFrom dplyr between
 #' @export
 
@@ -46,8 +48,7 @@ qc_performance <- function(x, x_ref, cutoff=c(0, 0.2, 0.5, 0.8, 1)) {
 
 #' Rank in historical performances
 #' @param x The value of the metric to be labeled
-#' @param x_ref The reference values of the metric
-#' @param cutoff The cut-offs of the labeling
+#' @param x_hist The reference values of the metric
 #' @export
 qc_rank <- function(x, x_hist) {
   x_all <- c(x, x_hist[!is.na(x_hist)])
@@ -63,19 +64,21 @@ qc_rank <- function(x, x_hist) {
 #' @param pep_dt A expression table file (at peptide level)
 #' @param meta_dt A metadata file
 #' @param output_dir A directory for results
+#' @param plot if True, a plot will be output.
 #' @export
 
-qc_allmetrics <- function(pro_dt, meta_dt, pep_dt=NULL, output_dir=NULL) {
+qc_allmetrics <- function(pro_dt, meta_dt, pep_dt=NULL,
+                          output_dir=NULL, plot=FALSE) {
   # Basic information ---------------------------
   pro_info <- qc_info(pro_dt, meta_dt)
 
   # SNR -----------------------------------------
-  snr_results <- qc_snr(pro_dt, meta_dt, output_dir)
+  snr_results <- qc_snr(pro_dt, meta_dt, output_dir, plot)
   snr_value <- snr_results$SNR
 
   # RC ------------------------------------------
   if (!is.null(pep_dt)) {
-    cor_results <- qc_cor(pep_dt, meta_dt, output_dir)
+    cor_results <- qc_cor(pep_dt, meta_dt, output_dir, plot)
     cor_value <- cor_results$COR
   }else {
     cor_results <- NULL
@@ -110,6 +113,9 @@ qc_allmetrics <- function(pro_dt, meta_dt, pep_dt=NULL, output_dir=NULL) {
 
 #' Calculating: Total Score
 #' @param allmetrics_dt the output table from qc_allmetrics
+#' @param ref_qc historical data set
+#' @param ref_qc_norm historical data set
+#' @param ref_qc_stat historical data set
 #' @param normalized if True, the qc values will be linearly normalized to 1~10.
 #' @export
 

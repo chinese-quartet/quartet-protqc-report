@@ -1,22 +1,24 @@
 #' Quality assessment of historical data sets
-#' @param historical_pro_path A file path of data (at protein level)
-#' @param historical_pep_path A file path of data (at peptide level)
-#' @param meta_dt_path A file path of the metadata file
-#' @param output_dir A directory of the output file(s)
+#' @import stats
+#' @import utils
 #' @importFrom data.table data.table
+#' @importFrom stringi stri_escape_unicode
 #' @importFrom reshape2 melt
 #' @importFrom reshape2 dcast
 #' @importFrom psych corr.test
 #' @importFrom psych geometric.mean
 #' @export
 
-qc_history <- function(historical_pro_path,
-                       historical_pep_path,
-                       historical_meta_path) {
+qc_history <- function() {
   # Load data ------------------------------------------
-  all_pro <- readRDS(historical_pro_path)
-  all_pep <- readRDS(historical_pep_path)
-  all_meta <- readRDS(historical_meta_path)
+  load(system.file("data/historical_meta.rda", package = "protqc"))
+  load(system.file("data/historical_meta.rda", package = "protqc"))
+  load(system.file("data/historical_meta.rda", package = "protqc"))
+
+  # Global variables -----------------------------------
+  all_pro <- historical_data_genesymbols
+  all_pep <- historical_data_peptides
+  all_meta <- historical_meta
 
   # Run the QC pipeline: per batch ---------------------
   df_history <- c()
@@ -56,7 +58,7 @@ qc_history <- function(historical_pro_path,
     x <- df_wide[, colnames(df_wide) %in% m]
     x_mean <- round(mean(x, na.rm = T), 3)
     x_sd <- round(sd(x, na.rm = T), 3)
-    x_ms <- paste(x_mean, " ± ", x_sd, sep = "")
+    x_ms <- paste(x_mean, " \\u00b1 ", x_sd, sep = "")
 
     x_max <- max(x, na.rm = T)
     x_min <- min(x, na.rm = T)
@@ -69,7 +71,7 @@ qc_history <- function(historical_pro_path,
     df_wide_norm <- cbind(df_wide_norm, x_norm)
 
     m_ms <- data.table("Quality Metrics" = m,
-                       "Historical Value (mean ± SD)" = x_ms)
+                       "Historical Value (mean \\u00b1 SD)" = x_ms)
     df_meansd <- rbind(df_meansd, m_ms)
   }
 
@@ -89,16 +91,20 @@ qc_history <- function(historical_pro_path,
   his_ref_norm <- as.numeric(df_wide_norm$Total_norm)
   his_mean <- round(mean(his_ref_norm, na.rm = T), 3)
   his_sd <- round(sd(his_ref_norm, na.rm = T), 3)
-  his_ms <- paste(his_mean, " ± ", his_sd, sep = "")
-  df_meansd_final <- rbind(df_meansd,
-                           data.table("Quality Metrics" = "Total Score",
-                                      "Historical Value (mean ± SD)" = his_ms))
+  his_ms <- paste(his_mean, " \\u00b1 ", his_sd, sep = "")
+  df_meansd_final <- rbind(
+    df_meansd,
+    data.table("Quality Metrics" = "Total Score",
+               "Historical Value (mean \\u00b1 SD)" = his_ms))
 
   # Output ------------------------------------------
-  output_list <- list("historical_qc_statisctics" = df_meansd_final,
-                      "historical_qc_raw" = df_wide,
-                      "historical_qc_norm" = df_wide_norm)
+  historical_qc_stat <- df_meansd_final
+  historical_qc <- df_wide
+  historical_qc_norm <- df_wide_norm
+
+  output_list <- list(statistics = historical_qc_stat,
+                      raw = historical_qc,
+                      normalized = historical_qc_norm)
 
   return(output_list)
-
 }
