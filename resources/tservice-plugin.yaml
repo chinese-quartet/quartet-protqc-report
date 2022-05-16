@@ -1,6 +1,6 @@
 info:
   name: QC Report for Quartet Proteomics
-  version: v0.2.0
+  version: v0.2.1
   description: Generate the QC Report for Quartet Proteomics data.
   category: Report
   home: https://github.com/chinese-quartet/quartet-protqc-report
@@ -42,7 +42,7 @@ init:
   - step: unpack-env
     envtype: environment
     envname: Rprofile
-    postunpack: sed -i 's/<plugin_env_path>/{{ ENV_DIR }}/' {{ ENV_DIR }}/Rprofile
+    postunpack: sed -i 's#<plugin_env_path>#{{ ENV_DIR }}#g' {{ ENV_DIR }}/Rprofile
   - step: load-namespace
     namespace: quartet-protqc-report.core
   - step: register-plugin
