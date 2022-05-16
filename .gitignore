@@ -11,3 +11,13 @@ pom.xml.asc
 .hg/
 .clj-kondo
 .lsp/
+.DS_Store
+
+# R History files
+.Rhistory
+.Rapp.history
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
