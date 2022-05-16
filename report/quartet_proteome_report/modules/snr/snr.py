@@ -77,12 +77,8 @@ class MultiqcModule(BaseMultiqcModule):
     self.add_section(
         name="",
         description = """
-        SNR is established to characterize the power in discriminating multiple groups. The PCA plot is used to visualise the metric.<br>
-        Points are coloured as follows: 
-        <span style="color: #00ACC6;"><b>D5</b></span>, 
-        <span style="color: #5BAF89;"><b>D6</b></span>, 
-        <span style="color: #FFB132;"><b>F7</b></span>, 
-        <span style="color: #E8633B;"><b>M8</b></span>.""",
+        SNR is established to characterize the power in discriminating multiple groups. The PCA plot is used to visualise the metric.
+        """,
         anchor="correlation-scatter",
         plot = html
     )
