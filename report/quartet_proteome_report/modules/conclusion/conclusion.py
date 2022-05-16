@@ -182,13 +182,13 @@ class MultiqcModule(BaseMultiqcModule):
       anchor = id + '_anchor',
       description = """
       The performance of the submitted data will be graded as <span style="color: #b80d0d;font-weight:bold">Bad</span>, <span style="color: #d97c11;font-weight:bold">Fair</span>, <span style="color: #70c402;font-weight:bold">Good</span>, or <span style="color: #0f9115;font-weight:bold">Great</span> based on the ranking by comparing the total score with the historical datasets.<br>
-      The total score is the harmonic mean of the scaled values of the number of features, missing percentage, absolute correlation, coefficient of variantion, Signal-to-Noise Ratio (SNR), and relative correlation with reference datasets (RC).
+      The total score is the geometric mean of the scaled values of the number of features, missing percentage, absolute correlation, coefficient of variantion, Signal-to-Noise Ratio (SNR), and relative correlation with reference datasets (RC).
       """,
       plot = overview_html + '\n' + table_html,
       helptext = helptext if helptext else '''
       **Evaluation metrics:**
       
-      * The total score is the harmonic mean of the scaled values of the number of features, missing percentage, absolute correlation, coefficient of variantion, Signal-to-Noise Ratio (SNR), and relative correlation with reference datasets (RC).
+      * The total score is the geometric mean of the scaled values of the number of features, missing percentage, absolute correlation, coefficient of variantion, Signal-to-Noise Ratio (SNR), and relative correlation with reference datasets (RC).
       * For better comparison and presentation, the total score was scaled to the interval [1, 10], with the worst dataset being 1 and the best dataset scoring 10.
 
       **Four levels of performance:**
