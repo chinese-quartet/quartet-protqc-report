@@ -59,7 +59,7 @@ def quartet_proteome_report_execution_start():
 
   # Module-correlation
   if 'correlation/table' not in config.sp:
-    config.update_dict( config.sp, { 'correlation/table': { 'fn_re': '^corr_table.tsv$' } } )  
+    config.update_dict( config.sp, { 'correlation/table': { 'fn_re': '^corr_table.tsv$' } } )
   
   config.module_order = ['general_information', 'conclusion', 'snr', 'correlation', 'supplementary']
   config.log_filesize_limit = 2000000000

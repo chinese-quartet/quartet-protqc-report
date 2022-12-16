@@ -43,7 +43,7 @@ class MultiqcModule(BaseMultiqcModule):
     if len(corr_df) != 0:
       self.plot_rc("correlation-scatter", corr_df)
     else:
-      log.debug('No file matched: correlation - pca_table.tsv')
+      log.debug('No file matched: correlation - corr_table.tsv')
   
   ### Function: Plot the scatter plot
   def plot_rc(self, id, fig_data, title=None, section_name=None, description=None, helptext=None):
