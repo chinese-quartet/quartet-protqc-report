@@ -1,4 +1,4 @@
-renv::activate("<plugin_env_path>");
+renv::activate("/opt/conda/renv");
 renv::restore();
 renv::settings$use.cache(FALSE);
 pkgTest <- function(x) {
@@ -10,3 +10,4 @@ pkgTest <- function(x) {
 }
 
 pkgTest("protqc")
+
