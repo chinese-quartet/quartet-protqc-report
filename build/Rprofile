@@ -1,7 +1,6 @@
-renv::activate("/opt/conda/renv");
+renv::activate("/opt/conda/");
 renv::restore();
 renv::settings$use.cache(FALSE);
-renv::install("bioc::edgeR")
 pkgTest <- function(x) {
   if (!require(x,character.only = TRUE))
   {
