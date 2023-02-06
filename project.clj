@@ -32,16 +32,16 @@
   :source-paths ["src"]
   :test-paths ["test"]
 
-  :repositories [["official" "https://repo1.maven.org/maven2/"]
-                 ["central" "https://maven.aliyun.com/repository/central"]
-                 ["jcenter" "https://maven.aliyun.com/repository/jcenter"]
-                 ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
-                 ["clojars-official" "https://repo.clojars.org"]]
+  ;; :repositories [["official" "https://repo1.maven.org/maven2/"]
+  ;;                ["central" "https://maven.aliyun.com/repository/central"]
+  ;;                ["jcenter" "https://maven.aliyun.com/repository/jcenter"]
+  ;;                ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
+  ;;                ["clojars-official" "https://repo.clojars.org"]]
 
-  :plugin-repositories [["central" "https://maven.aliyun.com/repository/central"]
-                        ["jcenter" "https://maven.aliyun.com/repository/jcenter"]
-                        ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
-                        ["clojars-official" "https://repo.clojars.org"]]
+  ;; :plugin-repositories [["central" "https://maven.aliyun.com/repository/central"]
+  ;;                       ["jcenter" "https://maven.aliyun.com/repository/jcenter"]
+  ;;                       ["clojars" "https://mirrors.tuna.tsinghua.edu.cn/clojars/"]
+  ;;                       ["clojars-official" "https://repo.clojars.org"]]
 
   :profiles
   {:provided

@@ -26,7 +26,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py37_22.11.1-1-Linux-x86
 RUN /opt/conda/bin/conda install -c conda-forge -c bioconda mamba
 RUN /opt/conda/bin/mamba install -c conda-forge -c bioconda -y python=3.9 r-base=3.6.3 r-renv blas lapack cxx-compiler
 ADD ./resources/requirements.txt /data/requirements.txt
-ADD ./bin/quartet-protqc-report /opt/conda/bin/quartet-p'r'o't-report
+ADD ./bin/quartet-protqc-report /opt/conda/bin/quartet-prot-report
 RUN /opt/conda/bin/pip install -r /data/requirements.txt
 
 ADD ./resources/bin/protqc.sh /opt/conda/bin/protqc.sh
