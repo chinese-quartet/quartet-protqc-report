@@ -1,7 +1,7 @@
 (ns quartet-protqc-report.cli
   (:gen-class)
   (:require [quartet-protqc-report.task :refer [make-report!]]
-            [local-fs.core :refer [file? directory?]]
+            [local-fs.core :refer [file? directory? exists?]]
             [clojure.string :as clj-str]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
@@ -75,7 +75,9 @@
 (defn -main
   "Generate ProtQC report for quartet project."
   [& args]
-  (System/setProperty "R_PROFILE_USER" ".env/Rprofile")
+  (if (exists? "/opt/conda/etc/Rprofile")
+    (System/setProperty "R_PROFILE_USER" "/opt/conda/etc/Rprofile")
+    (System/setProperty "R_PROFILE_USER" ".env/Rprofile"))
   (let [{:keys [options exit-message ok?]} (validate-args args)]
     (if exit-message
       (exit (if ok? 0 1) exit-message)
