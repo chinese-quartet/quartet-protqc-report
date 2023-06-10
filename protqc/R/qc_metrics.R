@@ -9,7 +9,7 @@
 qc_info <- function(expr_dt, meta_dt) {
 
   # Load data --------------------------------
-  m <- meta_dt[, colnames(meta_dt) %in% c("library", "sample")]
+  m <- meta_dt
   d <- expr_dt
   s <- meta_dt$sample
 
@@ -53,7 +53,7 @@ qc_info <- function(expr_dt, meta_dt) {
   d_long <- na.omit(d_long)
   if (length(d_long$value[d_long$value < 0])) {
     d_long$value <- 2 ^ (d_long$value)
-    message("All values were squared to avoid negative values.")
+    message("There are negative values. Default to log2-transformed values.")
   }
   d_long <- merge(d_long, m, by.x = "variable", by.y = "library")
   colnames(d_long) <- c("library", "feature", "value", "sample")
@@ -262,9 +262,16 @@ qc_cor <- function(expr_dt, meta_dt,
   expr_ncol <- ncol(expr_dt)
   expr_df <- data.frame(expr_dt[, 2:expr_ncol], row.names = expr_dt[, 1])
   expr_matrix <- as.matrix(expr_df)
+  expr_matrix <- expr_matrix[, meta_dt$library]
 
   # Replace NA by zero ---------------------------------------------
   expr_matrix[is.na(expr_matrix)] <- 0
+
+  # Check if negative values exist ----------------------------------
+  if (length(expr_matrix[expr_matrix < 0])) {
+    expr_matrix <- 2 ^ (expr_matrix)
+    message("There are negative values. Default to log2-transformed values.")
+  }
 
   # Check the grouping info ----------------------------------------
   samples <- as.character(unique(meta_dt$sample))
@@ -286,8 +293,8 @@ qc_cor <- function(expr_dt, meta_dt,
     sample_pair <- paste(samples[j], "D6", sep = "/")
     ref_tmp <- ref_dt[ref_dt$Sample.Pair %in% sample_pair, ]
 
-    col1 <- grep(samples[j], colnames(expr_matrix))
-    col2 <- grep("D6", colnames(expr_matrix))
+    col1 <- which(meta_dt$sample %in% samples[j])
+    col2 <- which(meta_dt$sample %in% "D6")
 
     e_tmp <- expr_matrix[, c(col1, col2)]
     e_tmp <- e_tmp[apply(e_tmp, 1, function(x) length(which(x == 0)) < 3), ]
