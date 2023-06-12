@@ -21,7 +21,7 @@ log = logging.getLogger('multiqc')
 
 class MultiqcModule(BaseMultiqcModule):
   def __init__(self):
-        
+    
     # Halt execution if we've disabled the plugin
     if config.kwargs.get('disable_plugin', True):
       return None
@@ -38,16 +38,16 @@ class MultiqcModule(BaseMultiqcModule):
     }
 
     ### Cutoff Table
-    cutoff_table = []
+    cutoff_table = pd.DataFrame()
     for f in self.find_log_files('conclusion/cutoff_table'):
       f_p = '%s/%s' % (f['root'], f['fn'])
       cutoff_table = pd.read_csv(f_p, sep = "\t")
-    if len(cutoff_table) == 0:
+    if cutoff_table.empty:
       log.debug('No file matched: conclusion - cutoff_table.tsv')
 
 
     ### Conclusion Table
-    table_summary_dic = []
+    table_summary_dic = {}
     for f in self.find_log_files('conclusion/conclusion_table'):
       f_p = '%s/%s' % (f['root'], f['fn'])
       content = pd.read_csv(f_p, sep = "\t").replace(r'\\u00b1', '±', regex=True)
@@ -66,11 +66,10 @@ class MultiqcModule(BaseMultiqcModule):
       quality_score_df = pd.read_csv(f_p, sep = "\t")
       # Sort the dataframe by total score
       quality_score_df.sort_values('Total', inplace=True, ascending=True)
-      
-      if quality_score_df.shape[0] != 0:
-        self.plot_quality_score('plot_quality_score', quality_score_df)
-      else:
-        log.debug('No file matched: conclusion - rank_table.tsv')
+    if quality_score_df.shape[0] != 0:
+      self.plot_quality_score('plot_quality_score', quality_score_df)
+    else:
+      log.debug('No file matched: conclusion - rank_table.tsv')
 
 
   ### Function 1: Evaluation metrics
