@@ -57,8 +57,8 @@ class MultiqcModule(BaseMultiqcModule):
           render_mode = 'svg')
     
     fig.update_traces(marker=dict(size=15, opacity=1, line_color='white', line_width=0.5))
-    fig.update_layout(yaxis_title='PC1',
-                      xaxis_title='PC2',
+    fig.update_layout(xaxis_title='PC1',
+                      yaxis_title='PC2',
                       font=dict(family="Arial, sans-serif", size=12.5, color="black"),
                       template="plotly_white", 
                       # xaxis_range = [-tick, tick], 

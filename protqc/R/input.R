@@ -3,13 +3,20 @@
 #' @param meta_path A file path of the metadata file
 #' @import stats
 #' @import utils
+#' @importFrom data.table fread
+#' @importFrom dplyr %>%
+#' @importFrom dplyr rename
 #' @export
 
 input_data <- function(exp_path, meta_path) {
 
   # Load data ------------------------------------------------
-  expr <- read.csv(exp_path)
-  meta <- read.csv(meta_path)
+  expr <- fread(exp_path)
+  meta <- fread(meta_path)
+
+  expr <- as.data.frame(expr)
+  meta <- meta %>%
+    rename_with(tolower)
 
   # Check data format ----------------------------------------
   # Compatible with version 0.1.x.
@@ -17,12 +24,24 @@ input_data <- function(exp_path, meta_path) {
   # metadata file: name -> library, sample
   # data file: rowname -> Type, Feature, xxx
 
+  if(length(which(duplicated(colnames(expr))))) {
+    stop('Duplicated column names in data.')
+    print(1)
+  }
+
   col_check1 <- c("name", "library", "sample") %in% colnames(meta)
   if ((col_check1[1] | col_check1[2]) & col_check1[3]) {
-    col_pos <- colnames(meta) %in% c("name", "library", "sample")
-    meta_final <- meta[, col_pos]
+
+    meta_final <- meta %>% select(any_of(c("name", "library", "sample")))
     colnames(meta_final) <- c("library", "sample")
+
+    if(length(which(duplicated(meta_final$library)))) {
+
+      stop('Duplicated column names in metadata.')
+      print(1)
+    }
   } else {
+
     stop('The columns named "library" and "sample" are required in metadata.')
     print(1)
   }

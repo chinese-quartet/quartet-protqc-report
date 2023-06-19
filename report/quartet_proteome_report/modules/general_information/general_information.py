@@ -25,6 +25,7 @@ class MultiqcModule(BaseMultiqcModule):
     )
     
     # Find and load any input files for general_information
+    information = []
     for f in self.find_log_files('general_information/information'):
       information = eval(f['f'])
     

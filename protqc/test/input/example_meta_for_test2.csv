@@ -1,13 +1,13 @@
 "omics","library","batch","extraction_date","instrument","site","platform","database","tool","sample","replicate"
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D5_1","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D5",1
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D5_2","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D5",2
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D5_3","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D5",3
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D6_1","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D6",1
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D6_2","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D6",2
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_D6_3","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","D6",3
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_F7_1","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","F7",1
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_F7_2","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","F7",2
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_F7_3","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","F7",3
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_M8_1","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","M8",1
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_M8_2","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","M8",2
-"Shotgun-Proteomics","Lot2_DIA_BGI_QEHF_B1_M8_3","Lot2_DIA_BGI_QEHF_B1","2020/6/16","QEHF","BGI","ThermoFisher","Uniprot","MaxQuant;BGI-inhouse pipelines","M8",3
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D5_1","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D5",1
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D5_2","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D5",2
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D5_3","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D5",3
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D6_1","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D6",1
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D6_2","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D6",2
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_D6_3","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","D6",3
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_F7_1","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","F7",1
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_F7_2","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","F7",2
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_F7_3","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","F7",3
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_M8_1","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","M8",1
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_M8_2","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","M8",2
+"Shotgun-Proteomics","Lot1_DDA_ABS_QTOF6600_B1_M8_3","Lot1_DDA_ABS_QTOF6600_B1","2017/11/6","QTOF6600","ABS","AB Sciex","Refseq","Firmiana","M8",3
