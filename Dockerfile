@@ -29,18 +29,18 @@ RUN /opt/conda/bin/mamba install -c conda-forge -c bioconda -y python=3.9 r-base
 ADD ./bin/quartet-protqc-report /opt/conda/bin/quartet-prot-report
 # Install report locally instead of remote to install the latest version.
 ADD report /report
-RUN /opt/conda/envs/venv/bin/pip install /report
+RUN /opt/conda/bin/pip install /report
 
 ADD ./resources/bin/protqc.sh /opt/conda/bin/protqc.sh
 ADD ./resources/renv /opt/conda/renv
 ADD ./resources/renv.lock /opt/conda/renv.lock
 # Install protqc locally instead of remote to install the latest version.
 # ADD ./build/Rprofile /opt/conda/etc/Rprofile
-# RUN /opt/conda/envs/venv/bin/Rscript /opt/conda/etc/Rprofile
+# RUN /opt/conda/bin/Rscript /opt/conda/etc/Rprofile
 
 # Disable cache to install all packages into the conda environment.
 COPY protqc /protqc
-RUN /opt/conda/envs/venv/bin/Rscript -e 'renv::activate("/opt/conda");renv::restore();renv::install("/protqc")'
+RUN /opt/conda/bin/Rscript -e 'renv::activate("/opt/conda");renv::restore();renv::install("/protqc")'
 
 # install dependencies before adding the rest of the source to maximize caching
 # backend dependencies
