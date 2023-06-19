@@ -22,5 +22,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build & push docker image
-        run: ./build-docker.sh
+        run: ./build-docker.sh --push
         shell: bash

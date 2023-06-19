@@ -1,8 +1,12 @@
-# quartet-protqc-report
+# Quartet ProtQC Report
 
-Visualizes Quality Control(QC) results for Quartet Project.
+From Quantified Expression Profiles to QC Report
 
-## Standalone Mode
+## How to run Quartet ProtQC Report
+
+See more details on [QDP Docs](https://docs.chinese-quartet.org/data_pipelines/proteomics/qc_report/).
+
+## Build from source code
 ### Prerequisite
 
 - Bash
