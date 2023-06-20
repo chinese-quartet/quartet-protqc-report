@@ -5,7 +5,8 @@
 #' @import utils
 #' @importFrom data.table fread
 #' @importFrom dplyr %>%
-#' @importFrom dplyr rename
+#' @importFrom dplyr rename_with
+#' @importFrom dplyr select
 #' @export
 
 input_data <- function(exp_path, meta_path) {
