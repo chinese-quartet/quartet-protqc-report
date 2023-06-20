@@ -1,4 +1,4 @@
-(defproject quartet-protqc-report "0.2.1"
+(defproject quartet-protqc-report "0.2.3"
   :description "Visualizes Quality Control(QC) results for Quartet Project."
   :url "https://github.com/chinese-quartet/quartet-protqc-report"
   :license {:name "Eclipse Public License"

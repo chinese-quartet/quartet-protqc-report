@@ -1,6 +1,6 @@
 info:
   name: QC Report for Quartet Proteomics
-  version: v0.2.1
+  version: v0.2.3-bc204df0
   description: Generate the QC Report for Quartet Proteomics data.
   category: Report
   home: https://github.com/chinese-quartet/quartet-protqc-report

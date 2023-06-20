@@ -26,7 +26,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py37_22.11.1-1-Linux-x86
 RUN /opt/conda/bin/conda install -c conda-forge -c bioconda mamba
 RUN /opt/conda/bin/mamba install -c conda-forge -c bioconda -y python=3.9 r-base=3.6.3 r-renv blas lapack cxx-compiler
 
-ADD ./bin/quartet-protqc-report /opt/conda/bin/quartet-prot-report
+ADD ./bin/quartet-protqc-report /opt/conda/bin/quartet-protqc-report
 # Install report locally instead of remote to install the latest version.
 ADD report /report
 RUN /opt/conda/bin/pip install /report
@@ -35,8 +35,7 @@ ADD ./resources/bin/protqc.sh /opt/conda/bin/protqc.sh
 ADD ./resources/renv /opt/conda/renv
 ADD ./resources/renv.lock /opt/conda/renv.lock
 # Install protqc locally instead of remote to install the latest version.
-# ADD ./build/Rprofile /opt/conda/etc/Rprofile
-# RUN /opt/conda/bin/Rscript /opt/conda/etc/Rprofile
+ADD ./build/Rprofile /opt/conda/etc/Rprofile
 
 # Disable cache to install all packages into the conda environment.
 COPY protqc /protqc

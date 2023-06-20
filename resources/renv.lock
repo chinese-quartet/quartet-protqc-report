@@ -3,10 +3,6 @@
     "Version": "3.6.3",
     "Repositories": [
       {
-        "Name": "MRAN",
-        "URL": "https://mran.microsoft.com"
-      },
-      {
         "Name": "CRAN",
         "URL": "https://cloud.r-project.org"
       }
