@@ -1,8 +1,0 @@
-"Quality Metrics"	"Value"	"Historical Value (mean \u00b1 SD)"	"Rank"	"Performance"
-"Number of features"	5948	"4533.938 \u00b1 838.623"	"1/33"	"Great"
-"Missing percentage (%)"	4.813	"24.382 \u00b1 9.879"	"3/33"	"Great"
-"Absolute Correlation"	0.987	"0.92 \u00b1 0.033"	"2/33"	"Great"
-"Coefficient of variantion (CV, %)"	6.698	"22.52 \u00b1 8.324"	"1/33"	"Great"
-"Signal-to-Noise Ratio (SNR)"	27.179	"15.766 \u00b1 8.094"	"2/33"	"Great"
-"Relative Correlation with Reference Datasets (RC)"	0.827	"0.897 \u00b1 0.082"	"5/7"	"Bad"
-"Total Score"	9.11	"4.919 \u00b1 2.185"	"2/33"	"Great"
